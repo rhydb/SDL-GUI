@@ -1,0 +1,6 @@
+.idea
+Testing/
+cmake-build-debug/
+CMake*
+!CMakeLists.txt
+Makefile
