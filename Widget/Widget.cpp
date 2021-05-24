@@ -26,3 +26,7 @@ void Widget::set_tooltip(std::string text) {
     has_tooltip = true;
     tooltip.set(text);
 }
+
+void Widget::remove_tooltip() {
+    has_tooltip = false;
+}

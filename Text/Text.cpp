@@ -6,6 +6,7 @@ Text::Text(std::string text) {
 }
 
 void Text::set(std::string new_text) {
+    text = new_text;
     lines.clear();
     lines.push_back({});
     int longest = 1;

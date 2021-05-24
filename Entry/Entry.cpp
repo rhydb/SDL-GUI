@@ -9,29 +9,29 @@ Entry::Entry(Parent *parent)
 void Entry::update_and_render() {
     Renderer::draw_rect(x, y, w, h, {0, 0, 0});
     Renderer::draw_rect(x+1, y+1, w-2, h-2, {255, 255, 255}, true);
-    if (contents.size() > 0) {
+    if (!contents.empty()) {
         std::string visible_text;
         for (int i = scroll_right; i < contents.size() && visible_text.size() < w / 7; i++) {
             visible_text.push_back(contents[i]);
         }
         Renderer::draw_text(x + 2, y + 4, visible_text.c_str(), {0, 0, 0});
     } else {
-        if (placeholder.size() > 0 && !typing)
+        if (!placeholder.empty() && !typing)
             Renderer::draw_text(x + 2, y + 4, placeholder.c_str(), {150, 150, 150});
     }
     if (typing)
-        Renderer::draw_rect(cursor_x, y+2, 2, h-4, {0, 0, 0}, true);
+        Renderer::draw_rect(x + cursor_x, y+2, 2, h-4, {0, 0, 0}, true);
     Widget::update_and_render();
 }
 
 void Entry::move_cursor_right() {
-
     if (cursor_position < contents.size()) {
         cursor_position++;
         if (cursor_x < w - 12) {
             cursor_x += 7;
         }
         else {
+            std::cout << "ahh!\n";
             scroll_right++;
         }
     }
@@ -42,7 +42,7 @@ void Entry::move_cursor_right() {
 void Entry::move_cursor_left() {
     if (cursor_position > 0) {
         cursor_position--;
-        if (cursor_x > 2) {
+        if (cursor_x > 9 || cursor_x > 2 && scroll_right == 0) {
             cursor_x -= 7;
         }
         else {
@@ -66,7 +66,8 @@ void Entry::on_key_press(SDL_Scancode key) {
             return;
         } break;
         case SDL_SCANCODE_DELETE: {
-            contents.erase(contents.begin() + cursor_position);
+            if (cursor_position < contents.size())
+                contents.erase(contents.begin() + cursor_position);
         } break;
         case SDL_SCANCODE_BACKSPACE: {
             if (cursor_position > 0) {
@@ -127,9 +128,11 @@ void Entry::on_deselect() {
 }
 
 void Entry::on_hover() {
+    Widget::on_hover();
     Renderer::set_cursor(Renderer::Cursor::TYPE);
 }
 
 void Entry::off_hover() {
+    Widget::off_hover();
     Renderer::set_cursor(Renderer::Cursor::NORMAL);
 }

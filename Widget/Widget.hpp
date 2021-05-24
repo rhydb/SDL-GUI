@@ -20,6 +20,7 @@ public:
     virtual void on_deselect() {}
     virtual void grid(int row, int column);
     void set_tooltip(std::string text);
+    void remove_tooltip();
     int x, y, w, h;
 protected:
     Window* window;

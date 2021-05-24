@@ -15,8 +15,6 @@ public:
     void on_key_press(SDL_Scancode key);
     void on_key_release(SDL_Scancode key);
 
-
-
 private:
     bool shift = false;
     std::string contents = "";
