@@ -45,11 +45,11 @@ int Text::get_width() {
 
 void Text::render(int x, int y, SDL_Color foreground, bool draw_background, SDL_Color background) {
     if (draw_background)
-        Renderer::draw_rect(x, y, width * 7 , lines.size() * 15, background, true);
+        Renderer::draw_rect(x, y, width * Renderer::get_font_width() , lines.size() * Renderer::get_font_height(), background, true);
     int i = 0;
     for (std::string line : lines) {
         if (line.length() > 0) // cant render nothing
-            Renderer::draw_text(x, y + (i * 15), line.c_str(), foreground);
+            Renderer::draw_text(x, y + (i * Renderer::get_font_height()), line.c_str(), foreground);
         i++;
     }
 }

@@ -1,7 +1,7 @@
 #include "Entry.hpp"
 #include "Renderer.hpp"
 Entry::Entry(Parent *parent)
-: Widget(parent, 0, 0, 74, 19) {
+: Widget(parent, 0, 0, Renderer::get_font_width() * 10, Renderer::get_font_height() * 1.5) {
     // 10 characters long + .5 character padding each side
     // 1 character tall + .5 character padding each side
 }
@@ -11,13 +11,13 @@ void Entry::update_and_render() {
     Renderer::draw_rect(x+1, y+1, w-2, h-2, {255, 255, 255}, true);
     if (!contents.empty()) {
         std::string visible_text;
-        for (int i = scroll_right; i < contents.size() && visible_text.size() < w / 7; i++) {
+        for (int i = scroll_right; i < contents.size() && visible_text.size() < w / Renderer::get_font_width(); i++) {
             visible_text.push_back(contents[i]);
         }
-        Renderer::draw_text(x + 2, y + 4, visible_text.c_str(), {0, 0, 0});
+        Renderer::draw_text(x + 2, y + Renderer::get_font_height() / 3, visible_text.c_str(), {0, 0, 0});
     } else {
         if (!placeholder.empty() && !typing)
-            Renderer::draw_text(x + 2, y + 4, placeholder.c_str(), {150, 150, 150});
+            Renderer::draw_text(x + 2, y + Renderer::get_font_height() / 3, placeholder.c_str(), {150, 150, 150});
     }
     if (typing)
         Renderer::draw_rect(x + cursor_x, y+2, 2, h-4, {0, 0, 0}, true);
@@ -27,8 +27,8 @@ void Entry::update_and_render() {
 void Entry::move_cursor_right() {
     if (cursor_position < contents.size()) {
         cursor_position++;
-        if (cursor_x < w - 12) {
-            cursor_x += 7;
+        if (cursor_x < w - Renderer::get_font_width()) {
+            cursor_x += Renderer::get_font_width();
         }
         else {
             scroll_right++;
@@ -41,8 +41,8 @@ void Entry::move_cursor_right() {
 void Entry::move_cursor_left() {
     if (cursor_position > 0) {
         cursor_position--;
-        if (cursor_x > 9 || cursor_x > 2 && scroll_right == 0) {
-            cursor_x -= 7;
+        if (cursor_x > Renderer::get_font_width() + 2 || cursor_x > 2 && scroll_right == 0) {
+            cursor_x -= Renderer::get_font_width();
         }
         else {
             scroll_right--;
@@ -105,6 +105,7 @@ void Entry::on_key_press(SDL_Scancode key) {
 
         } break;
     }
+    TTF_SizeText(Renderer::get_font(), contents.c_str(), &text_width, &text_height);
 }
 
 void Entry::on_key_release(SDL_Scancode key) {

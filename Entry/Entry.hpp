@@ -16,6 +16,9 @@ public:
     void on_key_release(SDL_Scancode key);
 
 private:
+    int text_width = 1;
+    int text_height = 1;
+
     bool shift = false;
     std::string contents = "";
     std::string placeholder = "";

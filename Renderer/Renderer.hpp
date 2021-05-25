@@ -40,6 +40,8 @@ public:
             } break;
         }
     }
+    static inline int get_font_height() { return get().font_height; }
+    static inline int get_font_width() { return get().font_width; }
 
     static inline TTF_Font* get_font() { return get().font; }
 private:
@@ -50,7 +52,8 @@ private:
     void _draw_text(int x, int y, const char* text, SDL_Color color = {255, 255, 255, 255});
     void _draw_rect(int x, int y, int w, int h, SDL_Color color, bool fill = false);
     TTF_Font* font;
-
+    int font_width;
+    int font_height;
     int r = 255;
     int g = 255;
     int b = 255;

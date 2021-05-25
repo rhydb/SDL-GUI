@@ -1,6 +1,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL.h>
+#include <iostream>
 #include "Renderer.hpp"
 
 void Renderer::_hook(SDL_Window* window) {
@@ -21,11 +22,12 @@ void Renderer::_hook(SDL_Window* window) {
         SDL_LogError(0, "Failed to create renderer: %s", SDL_GetError());
         return;
     }
-    font = TTF_OpenFont("C:/Windows/Fonts/consola.ttf", 12);
+    font = TTF_OpenFont("C:/Windows/Fonts/Consola.ttf", 14);
     if (!font) {
         SDL_LogError(0, "Failed to load font: %s", TTF_GetError());
         return;
     }
+    TTF_SizeText(Renderer::get_font(), "a", &font_width, &font_height);
     cursor_normal = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
     cursor_hand = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
     cursor_type = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);

@@ -14,18 +14,18 @@ void Button::update_dimensions() {
     //h = text.get_line_count() * 15 + padding_y;
     TTF_SizeText(Renderer::get_font(), text.get().c_str(), &w, &h);
     w += padding_x;
-    h += padding_y;
     h *= text.get_line_count();
+    h += padding_y;
 }
 
 void Button::set_x(int newx) {
     x = newx;
-    text_x = (x + w / 2) - ((text.get_width() * 7) / 2);
+    text_x = (x + w / 2) - ((text.get_width() * Renderer::get_font_width()) / 2);
 }
 
 void Button::set_y(int newy) {
     y = newy;
-    text_y = (y + h / 2) - ((text.get_line_count() * 15) / 2);
+    text_y = (y + h / 2) - ((text.get_line_count() * Renderer::get_font_height()) / 2);
 }
 
 void Button::grid(int row, int column) {
