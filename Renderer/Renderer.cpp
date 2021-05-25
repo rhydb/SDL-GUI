@@ -21,7 +21,7 @@ void Renderer::_hook(SDL_Window* window) {
         SDL_LogError(0, "Failed to create renderer: %s", SDL_GetError());
         return;
     }
-    font = TTF_OpenFont("/usr/share/fonts/WindowsFonts/consola.ttf", 12);
+    font = TTF_OpenFont("C:/Windows/Fonts/consola.ttf", 12);
     if (!font) {
         SDL_LogError(0, "Failed to load font: %s", TTF_GetError());
         return;
