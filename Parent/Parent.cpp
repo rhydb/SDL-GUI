@@ -24,10 +24,10 @@ Widget* Parent::on_hover(int x, int y) {
         column++;
     }
     if (row < objects.size() && column < objects[row].size()) {
-        if (x <= objects[row][column]->x + objects[row][column]->w &&
-            x >= objects[row][column]->x &&
-            y <= objects[row][column]->y + objects[row][column]->h &&
-            y >= objects[row][column]->y) {
+        if (x <= objects[row][column]->get_x() + objects[row][column]->get_w() &&
+            x >= objects[row][column]->get_x() &&
+            y <= objects[row][column]->get_y() + objects[row][column]->get_h() &&
+            y >= objects[row][column]->get_y()) {
             return objects[row][column]->get_target_widget(x, y);
         }
     }
@@ -49,7 +49,7 @@ void Parent::grid(Widget *widget, int row, int column) {
         // new row
         row = objects.size();
         objects.push_back(std::vector<Widget*> {});
-        row_heights.push_back(widget->h);
+        row_heights.push_back(widget->get_h());
     }
 
     if (column >= objects[row].size()) {
@@ -57,32 +57,32 @@ void Parent::grid(Widget *widget, int row, int column) {
         column = objects[row].size();
         objects[row].push_back(widget);
         if (column >= column_widths.size()) {
-            column_widths.push_back(widget->w);
+            column_widths.push_back(widget->get_w());
         }
     }
-    if (widget->h > row_heights[row]) {
+    if (widget->get_h() > row_heights[row]) {
         for (int i = row + 1; i < objects.size(); i++) {
             for (Widget* w : objects[i]) {
-                w->y += widget->h - row_heights[row];
+                w->set_y(w->get_y()+ widget->get_h() - row_heights[row]);
             }
         }
-        row_heights[row] = widget->h;
+        row_heights[row] = widget->get_h();
     }
-    if (widget->w > column_widths[column]) {
+    if (widget->get_w() > column_widths[column]) {
         for (std::vector<Widget*> row : objects) {
             for (int i = column + 1; i < row.size(); i++) {
-                row[i]->x += widget->w - column_widths[column];
+                row[i]->set_x(row[i]->get_x() - column_widths[column]);
             }
         }
-        column_widths[column] = widget->w;
+        column_widths[column] = widget->get_w();
     }
-    widget->y = 0;
+    widget->set_y(0);
     for (int i = 0; i < row; i++) {
-        widget->y += row_heights[i];
+        widget->set_y(widget->get_y() + row_heights[i]);
     }
-    widget->x = 0;
+    widget->set_x(0);
     for (int i = 0; i < column; i++) {
-        widget->x += column_widths[i];
+        widget->set_x(widget->get_x() + column_widths[i]);
     }
     objects[row][column] = widget;
 

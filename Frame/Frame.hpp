@@ -12,6 +12,9 @@ public:
     Window* get_root() {return parent->get_root();}
     Widget* get_target_widget(int x, int y) {
         return Parent::on_hover(x, y);}
+    void set_x(int newx);
+    void set_y(int newy);
+
 private:
     int row, column;
 };

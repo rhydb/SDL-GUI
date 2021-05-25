@@ -21,8 +21,15 @@ public:
     virtual void grid(int row, int column);
     void set_tooltip(std::string text);
     void remove_tooltip();
-    int x, y, w, h;
 
+    virtual void set_x(int new_x) { x = new_x; }
+    virtual void set_y(int new_y) { y = new_y; }
+    virtual int get_x() { return x; }
+    virtual int get_y() { return y; }
+    virtual void set_w(int new_w) { w = new_w; }
+    virtual int get_w() { return w; }
+    virtual void set_h(int new_h) { h = new_h; }
+    virtual int get_h() { return h; }
 protected:
     Window* window;
     Parent* parent;
@@ -30,4 +37,5 @@ protected:
     bool show_tooltip = false;
     bool has_tooltip = false;
     Widget(Parent *parent, int x, int y, int w, int h);
+    int x, y, w, h;
 };

@@ -39,8 +39,9 @@ public:
                 SDL_SetCursor(get().cursor_type);
             } break;
         }
-
     }
+
+    static inline TTF_Font* get_font() { return get().font; }
 private:
     Renderer() {}
 
