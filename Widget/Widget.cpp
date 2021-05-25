@@ -13,6 +13,7 @@ void Widget::update_and_render() {
     if (show_tooltip && has_tooltip) {
         tooltip.render(window->get_mouse_x() + 15, window->get_mouse_y() + 15, {255, 255, 255}, true, {0, 0, 0});
     }
+
 }
 void Widget::on_hover() {
     show_tooltip = true;

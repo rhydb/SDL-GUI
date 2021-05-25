@@ -16,4 +16,6 @@ protected:
     std::vector<int> column_widths = {};
     std::vector<std::vector<Widget*>> objects = {}; // vector of widget vectors
     virtual void update_and_render();
+    int m_x = 0;
+    int m_y = 0;
 };

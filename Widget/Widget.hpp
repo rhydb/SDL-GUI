@@ -22,6 +22,7 @@ public:
     void set_tooltip(std::string text);
     void remove_tooltip();
     int x, y, w, h;
+
 protected:
     Window* window;
     Parent* parent;

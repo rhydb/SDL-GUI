@@ -31,7 +31,6 @@ void Entry::move_cursor_right() {
             cursor_x += 7;
         }
         else {
-            std::cout << "ahh!\n";
             scroll_right++;
         }
     }

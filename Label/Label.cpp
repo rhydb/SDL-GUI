@@ -8,7 +8,7 @@ Label::Label(Parent *parent, std::string text)
 }
 
 void Label::update_and_render() {
-    Text::render(x, text_y, foreground, show_background, background);
+    Text::render(x, (y + h / 2) - (get_line_count() * 15 / 4), foreground, show_background, background);
     Widget::update_and_render();
 }
 

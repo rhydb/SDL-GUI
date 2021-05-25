@@ -3,8 +3,8 @@
 #include <iostream>
 
 Widget* Parent::on_hover(int x, int y) {
-    int temp_x = 0;
-    int temp_y = 0;
+    int temp_x = m_x;
+    int temp_y = m_y;
     int row = 0;
     int column = 0;
     for (int height : row_heights) {
@@ -48,28 +48,34 @@ void Parent::grid(Widget *widget, int row, int column) {
     if (row >= objects.size()) {
         // new row
         row = objects.size();
-        objects.emplace_back();
-    }
-    if (row >= row_heights.size()) {
+        objects.push_back(std::vector<Widget*> {});
         row_heights.push_back(widget->h);
-    } else {
-        if (widget->h > row_heights[row]) {
-            row_heights[row] = widget->h;
-        }
     }
+
     if (column >= objects[row].size()) {
         // new column
         column = objects[row].size();
         objects[row].push_back(widget);
-    }
-    if (column >= column_widths.size()) {
-        column_widths.push_back(widget->w);
-    } else {
-        if (widget->w > column_widths[column]) {
-            column_widths[column] = widget->w;
+        if (column >= column_widths.size()) {
+            column_widths.push_back(widget->w);
         }
     }
-
+    if (widget->h > row_heights[row]) {
+        for (int i = row + 1; i < objects.size(); i++) {
+            for (Widget* w : objects[i]) {
+                w->y += widget->h - row_heights[row];
+            }
+        }
+        row_heights[row] = widget->h;
+    }
+    if (widget->w > column_widths[column]) {
+        for (std::vector<Widget*> row : objects) {
+            for (int i = column + 1; i < row.size(); i++) {
+                row[i]->x += widget->w - column_widths[column];
+            }
+        }
+        column_widths[column] = widget->w;
+    }
     widget->y = 0;
     for (int i = 0; i < row; i++) {
         widget->y += row_heights[i];
@@ -79,5 +85,6 @@ void Parent::grid(Widget *widget, int row, int column) {
         widget->x += column_widths[i];
     }
     objects[row][column] = widget;
+
 
 }

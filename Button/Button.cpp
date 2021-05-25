@@ -23,7 +23,7 @@ void Button::grid(int row, int column) {
 
 void Button::update_and_render() {
     Renderer::draw_rect(x, y, w, h, {b_r, b_g, b_b}, true);
-    text.render(text_x, text_y, {f_r, f_g, f_b});
+    text.render((x + w / 2) - ((text.get_width() * 7) / 2), (y + h / 2) - ((text.get_line_count() * 15) / 2), {f_r, f_g, f_b});
     Widget::update_and_render();
 }
 
