@@ -10,9 +10,21 @@ Button::Button(Parent *parent, std::string _text, std::function<void()> callback
 }
 
 void Button::update_dimensions() {
-    w = text.get_width() * 7 + padding_x;
-    h = text.get_line_count() * 15 + padding_y;
+    //w = text.get_width() * 7 + padding_x;
+    //h = text.get_line_count() * 15 + padding_y;
+    TTF_SizeText(Renderer::get_font(), text.get().c_str(), &w, &h);
+    w += padding_x;
+    h += padding_y;
+    h *= text.get_line_count();
+}
+
+void Button::set_x(int newx) {
+    x = newx;
     text_x = (x + w / 2) - ((text.get_width() * 7) / 2);
+}
+
+void Button::set_y(int newy) {
+    y = newy;
     text_y = (y + h / 2) - ((text.get_line_count() * 15) / 2);
 }
 
@@ -23,7 +35,7 @@ void Button::grid(int row, int column) {
 
 void Button::update_and_render() {
     Renderer::draw_rect(x, y, w, h, {b_r, b_g, b_b}, true);
-    text.render((x + w / 2) - ((text.get_width() * 7) / 2), (y + h / 2) - ((text.get_line_count() * 15) / 2), {f_r, f_g, f_b});
+    text.render(text_x, text_y, {f_r, f_g, f_b});
     Widget::update_and_render();
 }
 
@@ -51,8 +63,9 @@ void Button::on_release() {
 
 }
 
-void Button::set_text(std::string _text) {
+void Button::set(std::string _text) {
     text.set(_text);
+    update_dimensions();
 }
 
 void Button::on_key_press(SDL_Scancode key) {
