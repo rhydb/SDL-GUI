@@ -1,18 +1,18 @@
-#include "Button.hpp"
 #include "Window.hpp"
+#include "Button.hpp"
 #include "Utils.hpp"
 #include <iostream>
 Button::Button(Parent *parent, std::string _text, std::function<void()> callback)
 // hard code font height and width :)
 : Widget(parent, 0, 0, 0, 0), callback(callback) {
-    text = Text(_text);
+    text = Text(window, _text);
     update_dimensions();
 }
 
 void Button::update_dimensions() {
     //w = text.get_width() * 7 + padding_x;
     //h = text.get_line_count() * 15 + padding_y;
-    TTF_SizeText(Renderer::get_font(), text.get().c_str(), &w, &h);
+    TTF_SizeText(window->get_font(), text.get().c_str(), &w, &h);
     w += padding_x;
     h *= text.get_line_count();
     h += padding_y;
@@ -20,12 +20,12 @@ void Button::update_dimensions() {
 
 void Button::set_x(int newx) {
     x = newx;
-    text_x = (x + w / 2) - ((text.get_width() * Renderer::get_font_width()) / 2);
+    text_x = (x + w / 2) - ((text.get_width() * window->get_font_width()) / 2);
 }
 
 void Button::set_y(int newy) {
     y = newy;
-    text_y = (y + h / 2) - ((text.get_line_count() * Renderer::get_font_height()) / 2);
+    text_y = (y + h / 2) - ((text.get_line_count() * window->get_font_height()) / 2);
 }
 
 void Button::grid(int row, int column) {
@@ -34,21 +34,21 @@ void Button::grid(int row, int column) {
 }
 
 void Button::update_and_render() {
-    Renderer::draw_rect(x, y, w, h, {b_r, b_g, b_b}, true);
+    window->draw_rect(x, y, w, h, {b_r, b_g, b_b}, true);
     text.render(text_x, text_y, {f_r, f_g, f_b});
     Widget::update_and_render();
 }
 
 void Button::on_hover() {
     Widget::on_hover();
-    Renderer::set_cursor(Renderer::Cursor::HAND);
+    window->set_cursor(Window::Cursor::HAND);
     Utils::swap(&f_r, &b_r);
     Utils::swap(&f_g, &b_g);
     Utils::swap(&f_b, &b_b);
 }
 void Button::off_hover() {
     Widget::off_hover();
-    Renderer::set_cursor(Renderer::Cursor::NORMAL);
+    window->set_cursor(Window::Cursor::NORMAL);
     Utils::swap(&f_r, &b_r);
     Utils::swap(&f_g, &b_g);
     Utils::swap(&f_b, &b_b);

@@ -1,5 +1,4 @@
 #include "Frame.hpp"
-#include "Renderer.hpp"
 Frame::Frame(Parent *parent)
 : Widget(parent, 0, 0, 0, 0)  {
 }

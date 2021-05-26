@@ -1,7 +1,6 @@
 #pragma once
 
 #include <functional>
-#include "Renderer.hpp"
 #include "Widget.hpp"
 #include "Parent.hpp"
 #include "Text.hpp"

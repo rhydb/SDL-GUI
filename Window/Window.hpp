@@ -1,15 +1,16 @@
 
 #pragma once
 #include <SDL2/SDL.h>
-#include "Renderer.hpp"
+#include <SDL2/SDL_ttf.h>
 #include "Parent.hpp"
 #include "Widget.hpp"
 class Widget;
 class Window : public Parent {
 public:
+    enum Cursor {NORMAL, HAND, TYPE};
     Window();
     void title(const char *title);
-    inline void background(int red, int green, int blue) {Renderer::background(red,green,blue);}
+    inline void background(int red, int green, int blue) {r = red; b = blue; g = green;}
     void run();
     void dimensions(int _width, int _height) {
         width = _width;
@@ -22,6 +23,29 @@ public:
     int get_mouse_x() {return mouse_x;}
     int get_mouse_y() {return mouse_y;}
     Window* get_root() {return this;}
+
+    // rendering
+    void draw_text(int x, int y, const char* text, SDL_Color color = {255, 255, 255, 255});
+    void draw_rect(int x, int y, int w, int h, SDL_Color color, bool fill = false);
+    inline void set_cursor(Cursor cursor) {
+        switch (cursor) {
+            case NORMAL: {
+                SDL_SetCursor(cursor_normal);
+            }; break;
+            case HAND: {
+                SDL_SetCursor(cursor_hand);
+            } break;
+            case TYPE: {
+                SDL_SetCursor(cursor_type);
+            } break;
+        }
+    }
+    inline int get_font_height() { return font_height; }
+    inline int get_font_width() { return font_width; }
+    inline TTF_Font* get_font() { return font; }
+    // end rendering
+
+
 private:
     SDL_Window *window;
     Widget *current_hover = nullptr;
@@ -36,4 +60,17 @@ private:
     bool mouse_wheel_down = false;
     int mouse_x = 0;
     int mouse_y = 0;
+    
+    // rendering
+    int r = 255;
+    int g = 255;
+    int b = 255;
+    SDL_Renderer* renderer = nullptr;
+    TTF_Font* font;
+    int font_width;
+    int font_height;
+    SDL_Cursor* cursor_hand;
+    SDL_Cursor* cursor_normal;
+    SDL_Cursor* cursor_type;
+    // end rendering
 };

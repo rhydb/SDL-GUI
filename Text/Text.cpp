@@ -1,7 +1,7 @@
 #include "Text.hpp"
-#include "Renderer.hpp"
+#include "Window.hpp"
 #include <assert.h>
-Text::Text(std::string text) {
+Text::Text(Window* window, std::string text) : window(window) {
     set(text);
 }
 
@@ -45,11 +45,11 @@ int Text::get_width() {
 
 void Text::render(int x, int y, SDL_Color foreground, bool draw_background, SDL_Color background) {
     if (draw_background)
-        Renderer::draw_rect(x, y, width * Renderer::get_font_width() , lines.size() * Renderer::get_font_height(), background, true);
+        window->draw_rect(x, y, width * window->get_font_width() , lines.size() * window->get_font_height(), background, true);
     int i = 0;
     for (std::string line : lines) {
         if (line.length() > 0) // cant render nothing
-            Renderer::draw_text(x, y + (i * Renderer::get_font_height()), line.c_str(), foreground);
+            window->draw_text(x, y + (i * window->get_font_height()), line.c_str(), foreground);
         i++;
     }
 }

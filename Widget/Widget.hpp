@@ -4,6 +4,7 @@
 #include "Text.hpp"
 #include "Parent.hpp"
 #include <iostream>
+
 class Parent;
 class Window;
 class Widget {
