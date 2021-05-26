@@ -23,7 +23,7 @@ entry->grid(0, 0);
 Button* button = new Button(&root, "Click me", [](){
 	std::cout << "I was clicked" << std::endl;
 });
-button->grid(0, 0);
+button->grid(0, 1);
 root.run();
 ```
 
