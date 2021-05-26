@@ -7,9 +7,9 @@ Label::Label(Parent *parent, std::string text)
     
 }
 
-void Label::update_and_render() {
+void Label::update_and_render(float dt) {
     Text::render(x, text_y, foreground, show_background, background);
-    Widget::update_and_render();
+    Widget::update_and_render(dt);
 }
 
 void Label::grid(int row, int column) {

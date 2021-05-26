@@ -6,7 +6,7 @@ public:
     void set_placeholder(std::string text);
     inline void set(std::string text) {contents = text;}
     inline std::string get() {return contents;}
-    void update_and_render();
+    void update_and_render(float dt);
     void on_hover();
     void off_hover();
     void on_select();

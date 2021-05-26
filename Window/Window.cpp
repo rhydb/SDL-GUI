@@ -41,7 +41,7 @@ Window::Window() {
         window_id++;
     }
 
-    font = TTF_OpenFont("C:/Windows/Fonts/consola.ttf", 18);
+    font = TTF_OpenFont("consola.ttf", 18);
     if (!font) {
         SDL_LogError(0, "Failed to load font: %s", TTF_GetError());
         return;
@@ -56,9 +56,14 @@ Window::Window() {
 }
 
 void Window::run() {
+    float last_time = 0.0f;
+    float delta_time = 0.0f;
     while (running) {
         poll_events();
-        update_and_render();
+        update_and_render(delta_time);
+        delta_time = SDL_GetTicks() - last_time;
+        delta_time /= 1000;
+        last_time = SDL_GetTicks();
     }
     clean();
 }
@@ -143,9 +148,9 @@ void Window::poll_events() {
     }
 }
 
-void Window::update_and_render() {
+void Window::update_and_render(float dt) {
     SDL_RenderClear(renderer);
-    Parent::update_and_render(); // update children
+    Parent::update_and_render(dt); // update children
     SDL_SetRenderDrawColor(renderer, r, g, b, 255); // background
     SDL_RenderPresent(renderer);
 }

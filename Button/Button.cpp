@@ -33,10 +33,10 @@ void Button::grid(int row, int column) {
     update_dimensions();
 }
 
-void Button::update_and_render() {
+void Button::update_and_render(float dt) {
     window->draw_rect(x, y, w, h, {b_r, b_g, b_b}, true);
     text.render(text_x, text_y, {f_r, f_g, f_b});
-    Widget::update_and_render();
+    Widget::update_and_render(dt);
 }
 
 void Button::on_hover() {

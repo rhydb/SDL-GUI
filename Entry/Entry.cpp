@@ -8,7 +8,7 @@ Entry::Entry(Parent *parent)
     // 1 character tall + .5 character padding each side
 }
 
-void Entry::update_and_render() {
+void Entry::update_and_render(float dt) {
     window->draw_rect(x, y, w, h, {0, 0, 0});
     window->draw_rect(x+1, y+1, w-2, h-2, {255, 255, 255}, true);
     if (!contents.empty()) {
@@ -23,7 +23,7 @@ void Entry::update_and_render() {
     }
     if (typing)
         window->draw_rect(x + cursor_x, y+2, 2, h-4, {0, 0, 0}, true);
-    Widget::update_and_render();
+    Widget::update_and_render(dt);
 }
 
 void Entry::move_cursor_right() {

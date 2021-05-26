@@ -10,7 +10,7 @@ class Window;
 class Widget {
 public:
     virtual Widget* get_target_widget(int x, int y) {return this;}
-    virtual void update_and_render();
+    virtual void update_and_render(float dt);
     virtual void on_press() {}
     virtual void on_release() {}
     virtual void on_key_press(SDL_Scancode key) {}
@@ -21,6 +21,7 @@ public:
     virtual void on_deselect() {}
     virtual void grid(int row, int column);
     void set_tooltip(std::string text);
+    inline void set_tooltip_delay(float seconds) { tooltip_delay = seconds; }
     void remove_tooltip();
 
     virtual void set_x(int new_x) { x = new_x; }
@@ -39,4 +40,6 @@ protected:
     bool has_tooltip = false;
     Widget(Parent *parent, int x, int y, int w, int h);
     int x, y, w, h;
+    float collected_time = 0;
+    float tooltip_delay = 0.5;
 };

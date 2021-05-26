@@ -4,6 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "Parent.hpp"
 #include "Widget.hpp"
+#undef main
 class Widget;
 class Window : public Parent {
 public:
@@ -54,7 +55,7 @@ private:
     int height = 720;
     bool running = true;
     void poll_events();
-    void update_and_render();
+    void update_and_render(float dt);
     void set_mouse_wheel(int state);
     bool mouse_wheel_up = false;
     bool mouse_wheel_down = false;

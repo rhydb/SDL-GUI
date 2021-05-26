@@ -33,10 +33,10 @@ Widget* Parent::on_hover(int x, int y) {
     return nullptr;
 }
 
-void Parent::update_and_render() {
+void Parent::update_and_render(float dt) {
     for (std::vector<Widget*> row : objects) {
         for (Widget *i : row) {
-            i->update_and_render();
+            i->update_and_render(dt);
         }
     }
 

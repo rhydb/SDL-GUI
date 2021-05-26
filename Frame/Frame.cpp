@@ -49,7 +49,7 @@ void Frame::grid(int _row, int _column) {
    
 }
 
-void Frame::update_and_render() {
-    Parent::update_and_render();
-    Widget::update_and_render();
+void Frame::update_and_render(float dt) {
+    Parent::update_and_render(dt);
+    Widget::update_and_render(dt);
 }
