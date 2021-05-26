@@ -3,6 +3,7 @@
 #include <assert.h>
 Text::Text(Window* window, std::string text) : window(window) {
     set(text);
+    
 }
 
 void Text::set(std::string new_text) {
@@ -44,6 +45,11 @@ int Text::get_width() {
 }
 
 void Text::render(int x, int y, SDL_Color foreground, bool draw_background, SDL_Color background) {
+    
+    if (window == nullptr) {
+        SDL_Log("Window for text object is a nullptr");
+    }
+
     if (draw_background)
         window->draw_rect(x, y, width * window->get_font_width() , lines.size() * window->get_font_height(), background, true);
     int i = 0;

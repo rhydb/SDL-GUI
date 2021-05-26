@@ -11,7 +11,7 @@ public:
     bool show_background = false;
     void set(std::string new_text);
     void grid(int row, int column);
-
+    void set_y(int newy);
 private:
     int text_x;
     int text_y;

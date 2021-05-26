@@ -1,7 +1,9 @@
 #include "Window.hpp"
 #include "Entry.hpp"
 Entry::Entry(Parent *parent)
-: Widget(parent, 0, 0, window->get_font_width() * 10, window->get_font_height() * 1.5) {
+: Widget(parent, 0, 0, 1, 1) {
+    w = window->get_font_width() * 10;
+    h = window->get_font_height() * 1.5;
     // 10 characters long + .5 character padding each side
     // 1 character tall + .5 character padding each side
 }
@@ -121,6 +123,16 @@ void Entry::set_placeholder(std::string text) {
 void Entry::on_select() {
     Widget::on_select();
     typing = true;
+}
+
+void Entry::on_press() {
+    Widget::on_press();
+    int mouse_x_rel = window->get_mouse_x() - x; // relative mouse x
+    int character = mouse_x_rel / window->get_font_width(); // character without respect to scroll
+    if (character < contents.size()) {
+        cursor_x = character * window->get_font_width(); // round it back up so that it locks to characters
+        cursor_position = scroll_right + character; // the true position
+    }
 }
 
 void Entry::on_deselect() {

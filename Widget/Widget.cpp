@@ -3,6 +3,7 @@
 Widget::Widget(Parent *parent, int x, int y, int w, int h)
 :parent(parent), x(x), y(y), w(w), h(h) {
     window = parent->get_root();
+    tooltip.window = window;
 }
 
 void Widget::grid(int row, int column) {

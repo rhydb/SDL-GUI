@@ -11,7 +11,7 @@ public:
     void off_hover();
     void on_select();
     void on_deselect();
-
+    void on_press(); 
     void on_key_press(SDL_Scancode key);
     void on_key_release(SDL_Scancode key);
 

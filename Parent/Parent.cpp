@@ -70,7 +70,7 @@ void Parent::grid(Widget *widget, int row, int column) {
     if (widget->get_w() > column_widths[column]) {
         for (std::vector<Widget*> row : objects) {
             for (int i = column + 1; i < row.size(); i++) {
-                row[i]->set_x(row[i]->get_x() - column_widths[column]);
+                row[i]->set_x(row[i]->get_x() + widget->get_w() - column_widths[column]);
             }
         }
         column_widths[column] = widget->get_w();

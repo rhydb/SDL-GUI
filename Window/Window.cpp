@@ -41,7 +41,7 @@ Window::Window() {
         window_id++;
     }
 
-    font = TTF_OpenFont("/usr/share/fonts/WindowsFonts/consola.ttf", 14);
+    font = TTF_OpenFont("C:/Windows/Fonts/consola.ttf", 18);
     if (!font) {
         SDL_LogError(0, "Failed to load font: %s", TTF_GetError());
         return;
