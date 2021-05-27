@@ -17,6 +17,7 @@ public:
         width = _width;
         height = _height;
         SDL_SetWindowSize(window, _width, _height);
+        custom_dimension = true;
     }
     void quit();
     void clean();
@@ -51,8 +52,9 @@ private:
     SDL_Window *window;
     Widget *current_hover = nullptr;
     Widget* selected_widget = nullptr;
-    int width = 1280;
-    int height = 720;
+    int width = 600;
+    int height = 600;
+    bool custom_dimension = false;
     bool running = true;
     void poll_events();
     void update_and_render(float dt);

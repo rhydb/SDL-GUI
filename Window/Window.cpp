@@ -58,6 +58,15 @@ Window::Window() {
 void Window::run() {
     float last_time = 0.0f;
     float delta_time = 0.0f;
+    if (!custom_dimension) {
+        width = 0;
+        height = 0;
+        for (int h : row_heights)
+            height += h;
+        for (int w : column_widths)
+            width += w;
+        dimensions(width, height);
+    }
     while (running) {
         poll_events();
         update_and_render(delta_time);
