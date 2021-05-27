@@ -41,7 +41,7 @@ Window::Window() {
         window_id++;
     }
 
-    font = TTF_OpenFont("consola.ttf", 18);
+    font = TTF_OpenFont("consola.ttf", 14);
     if (!font) {
         SDL_LogError(0, "Failed to load font: %s", TTF_GetError());
         return;
@@ -81,9 +81,15 @@ void Window::clean() {
 
 
 void Window::poll_events() {
+    SDL_StartTextInput();
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
+            case SDL_TEXTINPUT: {
+                if (selected_widget != nullptr) {
+                    selected_widget->on_text_input(event.text.text);
+                }
+            } break;
             case SDL_QUIT: {
                 quit(); 
             } break;
@@ -130,6 +136,7 @@ void Window::poll_events() {
 
         }
     }
+    SDL_StopTextInput();
     int prev_x = mouse_x;
     int prev_y = mouse_y;
     SDL_GetMouseState(&mouse_x, &mouse_y);

@@ -19,6 +19,7 @@ public:
     virtual void off_hover();
     virtual void on_select() {}
     virtual void on_deselect() {}
+    virtual void on_text_input(char* text) {}
     virtual void grid(int row, int column);
     void set_tooltip(std::string text);
     inline void set_tooltip_delay(float seconds) { tooltip_delay = seconds; }

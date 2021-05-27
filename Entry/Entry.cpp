@@ -4,8 +4,6 @@ Entry::Entry(Parent *parent)
 : Widget(parent, 0, 0, 1, 1) {
     w = window->get_font_width() * 10;
     h = window->get_font_height() * 1.5;
-    // 10 characters long + .5 character padding each side
-    // 1 character tall + .5 character padding each side
 }
 
 void Entry::update_and_render(float dt) {
@@ -18,8 +16,8 @@ void Entry::update_and_render(float dt) {
         }
         window->draw_text(x + 2, y + window->get_font_height() / 3, visible_text.c_str(), {0, 0, 0});
     } else {
-        if (!placeholder.empty() && !typing)
-            window->draw_text(x + 2, y + window->get_font_height() / 3, placeholder.c_str(), {150, 150, 150});
+        if (!placeholder.empty() && !typing) // draw the placeholder
+            window->draw_text(x + 2, y + window->get_font_height() / 3, placeholder.c_str(), {150, 150, 150}); // will go outside the box if long enough!
     }
     if (typing)
         window->draw_rect(x + cursor_x, y+2, 2, h-4, {0, 0, 0}, true);
@@ -52,6 +50,12 @@ void Entry::move_cursor_left() {
     }
 }
 
+void Entry::on_text_input(char* text) {
+    contents.insert(contents.begin() + cursor_position, *text);
+    move_cursor_right();
+    TTF_SizeText(window->get_font(), contents.c_str(), &text_width, &text_height);
+}
+
 void Entry::on_key_press(SDL_Scancode key) {
 
     switch (key) {
@@ -60,11 +64,6 @@ void Entry::on_key_press(SDL_Scancode key) {
         } break;
         case SDL_SCANCODE_LEFT: {
             move_cursor_left();
-        } break;
-        case SDL_SCANCODE_LSHIFT:
-        case SDL_SCANCODE_RSHIFT: {
-            shift = true;
-            return;
         } break;
         case SDL_SCANCODE_DELETE: {
             if (cursor_position < contents.size())
@@ -76,35 +75,7 @@ void Entry::on_key_press(SDL_Scancode key) {
                 move_cursor_left();
             }
         } break;
-
         default: {
-            const char* character_name = SDL_GetKeyName(SDL_GetKeyFromScancode(key));
-            char character;
-            if (key == SDL_SCANCODE_SPACE) {
-                character = ' ';
-            } else {
-                if (strlen(character_name) != 1)
-                    return;
-                character = character_name[0];
-            }
-            if (character >= 33 && character <= 126) { // ! to ~
-                // standard ascii letter
-                if (character >= 'A' && character <= 'Z') {
-                    // adjust for shift
-                    if (!shift) {
-                        character += 32; // a - A = 32
-                    }
-                } else {
-                    if (shift)
-                        character -= 16; // 1 - ! = 16
-                }
-            } else if (character != ' ') {
-                return;
-            }
-
-            contents.insert(contents.begin() + cursor_position, character);
-            move_cursor_right();
-
         } break;
     }
     TTF_SizeText(window->get_font(), contents.c_str(), &text_width, &text_height);
