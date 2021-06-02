@@ -4,7 +4,6 @@
 Label::Label(Parent *parent, std::string text)
 : Widget(parent, 0, 0, 0, 0), Text(Widget::window, text){
     set(text);
-    
 }
 
 void Label::update_and_render(float dt) {

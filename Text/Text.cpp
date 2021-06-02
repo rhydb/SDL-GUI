@@ -3,7 +3,6 @@
 #include <assert.h>
 Text::Text(Window* window, std::string text) : window(window) {
     set(text);
-    
 }
 
 void Text::set(std::string new_text) {
@@ -52,10 +51,9 @@ void Text::render(int x, int y, SDL_Color foreground, bool draw_background, SDL_
 
     if (draw_background)
         window->draw_rect(x, y, width * window->get_font_width() , lines.size() * window->get_font_height(), background, true);
-    int i = 0;
-    for (std::string line : lines) {
-        if (line.length() > 0) // cant render nothing
-            window->draw_text(x, y + (i * window->get_font_height()), line.c_str(), foreground);
-        i++;
+    for (int i = 0; i < lines.size(); i++) {
+        if (lines[i].length() > 0) {// cant render nothing
+           window->draw_text(x, y + (i * window->get_font_height()), lines[i].c_str(), foreground);
+        }
     }
 }

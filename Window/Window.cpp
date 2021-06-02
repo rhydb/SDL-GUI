@@ -50,7 +50,6 @@ Window::Window() {
     cursor_normal = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
     cursor_hand = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
     cursor_type = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
-
     
     SDL_GetMouseState(&mouse_x, &mouse_y);
 }
@@ -111,16 +110,16 @@ void Window::poll_events() {
             } break;
             case SDL_KEYDOWN: {
                 if (selected_widget != nullptr) {
-                    selected_widget->on_key_press(event.key.keysym.scancode);
+                    //selected_widget->on_key_press(event.key.keysym.scancode);
                 }
             } break;
             case SDL_KEYUP: {
                 if (selected_widget != nullptr) {
-                     selected_widget->on_key_release(event.key.keysym.scancode);
+                     //selected_widget->on_key_release(event.key.keysym.scancode);
                 }
             } break;
             case SDL_MOUSEWHEEL: {
-                set_mouse_wheel(event.wheel.y);
+                //set_mouse_wheel(event.wheel.y);
             } break;
 
             case SDL_MOUSEBUTTONDOWN: {
@@ -167,6 +166,25 @@ void Window::poll_events() {
 void Window::update_and_render(float dt) {
     SDL_RenderClear(renderer);
     Parent::update_and_render(dt); // update children
+    for (int i = 0; i < top_level.size(); i++) {
+        top_level[i]();
+    }
+    top_level.clear();
+#ifdef DEBUG
+    int total = 0;
+
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    for (int w : column_widths) {
+        SDL_RenderDrawLine(renderer, w + total, 0, w + total, height);
+        total += w;
+    }
+    total = 0;
+    for (int h : row_heights) {
+        SDL_RenderDrawLine(renderer, 0, h + total, width, h + total);
+        total += h;
+    }
+#endif
+
     SDL_SetRenderDrawColor(renderer, r, g, b, 255); // background
     SDL_RenderPresent(renderer);
 }
@@ -196,6 +214,7 @@ void Window::draw_text(int x, int y, const char* text, SDL_Color color) {
     float h = y;
     SDL_Rect dst = {w, h, src.w, src.h};
     SDL_RenderCopy(renderer, texture, &src, &dst);
+    SDL_DestroyTexture(texture);
     SDL_FreeSurface(surface);
 }
 

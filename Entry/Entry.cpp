@@ -34,8 +34,6 @@ void Entry::move_cursor_right() {
             scroll_right++;
         }
     }
-
-
 }
 
 void Entry::move_cursor_left() {
@@ -89,6 +87,7 @@ void Entry::on_key_release(SDL_Scancode key) {
 
 void Entry::set_placeholder(std::string text) {
     placeholder = text;
+    w = window->get_font_width() * text.length();
 }
 
 void Entry::on_select() {

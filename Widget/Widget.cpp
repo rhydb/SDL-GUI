@@ -13,7 +13,9 @@ void Widget::grid(int row, int column) {
 void Widget::update_and_render(float dt) {
     if (show_tooltip && has_tooltip) {
         if (collected_time >= tooltip_delay) {
-            tooltip.render(window->get_mouse_x() + 15, window->get_mouse_y() + 15, { 255, 255, 255 }, true, { 0, 0, 0 });
+            //window->top_level.push_back([tooltip=&tooltip, window=window]() {
+            //    tooltip->render(window->get_mouse_x() + 15, window->get_mouse_y() + 15, { 255, 255, 255 }, true, { 0, 0, 0 });
+            //    });
         }
         else {
             collected_time += dt;

@@ -34,9 +34,9 @@ Widget* Parent::on_hover(int x, int y) {
 }
 
 void Parent::update_and_render(float dt) {
-    for (std::vector<Widget*> row : objects) {
-        for (Widget *i : row) {
-            i->update_and_render(dt);
+    for (int i = 0; i < objects.size(); i++) {
+        for (int j = 0; j < objects[i].size(); j++) {
+            objects[i][j]->update_and_render(dt);
         }
     }
 
@@ -61,16 +61,16 @@ void Parent::grid(Widget *widget, int row, int column) {
     }
     if (widget->get_h() > row_heights[row]) {
         for (int i = row + 1; i < objects.size(); i++) {
-            for (Widget* w : objects[i]) {
-                w->set_y(w->get_y()+ widget->get_h() - row_heights[row]);
+            for (int j = 0; j < objects[i].size(); j++) {
+                objects[i][j]->set_y(objects[i][j]->get_y()+ widget->get_h() - row_heights[row]);
             }
         }
         row_heights[row] = widget->get_h();
     }
     if (widget->get_w() > column_widths[column]) {
-        for (std::vector<Widget*> row : objects) {
-            for (int i = column + 1; i < row.size(); i++) {
-                row[i]->set_x(row[i]->get_x() + widget->get_w() - column_widths[column]);
+        for (int i = 0; i < objects.size(); i++) {
+            for (int j = column + 1; j < objects[i].size(); j++) {
+                objects[i][j]->set_x(objects[i][j]->get_x() + widget->get_w() - column_widths[column]);
             }
         }
         column_widths[column] = widget->get_w();

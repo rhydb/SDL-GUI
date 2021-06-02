@@ -33,13 +33,13 @@ public:
     virtual int get_w() { return w; }
     virtual void set_h(int new_h) { h = new_h; }
     virtual int get_h() { return h; }
+    Widget(Parent* parent, int x, int y, int w, int h);
 protected:
     Window* window;
     Parent* parent;
     Text tooltip;
     bool show_tooltip = false;
     bool has_tooltip = false;
-    Widget(Parent *parent, int x, int y, int w, int h);
     int x, y, w, h;
     float collected_time = 0;
     float tooltip_delay = 0.5;

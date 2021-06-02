@@ -5,9 +5,9 @@ Frame::Frame(Parent *parent)
 
 void Frame::set_x(int newx) {
     int difference = newx - x;
-    for (std::vector<Widget*> row : objects) {
-        for (Widget* w : row) {
-            w->set_x(w->get_x() + difference);
+    for (int i = 0; i < objects.size(); i++) {
+        for (int j = 0; j < objects[i].size(); i++) {
+            objects[i][j]->set_x(objects[i][j]->get_x() + difference);
         }
     }
     x = newx;
@@ -16,9 +16,9 @@ void Frame::set_x(int newx) {
 
 void Frame::set_y(int newy) {
     int difference = newy - y;
-    for (std::vector<Widget*> row : objects) {
-        for (Widget* w : row) {
-            w->set_y(w->get_y() + difference);
+    for (int i = 0; i < objects.size(); i++) {
+        for (int j = 0; j < objects[i].size(); i++) {
+            objects[i][j]->set_y(objects[i][j]->get_y() + difference);
         }
     }
     y = newy;
