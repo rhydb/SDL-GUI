@@ -60,7 +60,6 @@ void Button::on_press() {
 
 void Button::on_release() {
     callback();
-
 }
 
 void Button::set(std::string _text) {

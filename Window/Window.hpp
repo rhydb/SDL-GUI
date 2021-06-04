@@ -3,12 +3,15 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <functional>
+#include <map>
 #include "Parent.hpp"
 #include "Widget.hpp"
 #undef main
 class Widget;
+class EventHandler;
 class Window : public Parent {
 public:
+    friend class EventHandler;
     enum Cursor { NORMAL, HAND, TYPE };
     Window();
     void title(const char* title);
@@ -23,10 +26,7 @@ public:
     void quit();
     void clean();
     void resizable(bool resizable) { SDL_SetWindowResizable(window, resizable ? SDL_TRUE : SDL_FALSE); }
-    int get_mouse_x() { return mouse_x; }
-    int get_mouse_y() { return mouse_y; }
     Window* get_root() { return this; }
-
     // rendering
     void draw_text(int x, int y, const char* text, SDL_Color color = { 255, 255, 255, 255 });
     void draw_rect(int x, int y, int w, int h, SDL_Color color, bool fill = false);
@@ -49,22 +49,22 @@ public:
     // end rendering
     std::vector<std::function<void()>> top_level;
 
-
 private:
+    static int window_count;
+    int window_id;
     SDL_Window* window;
+    /*
+    static std::map<int, Window*> windows;
     Widget* current_hover = nullptr;
-    Widget* selected_widget = nullptr;
+    Widget* selected_widget = nullptr;*/
     int width = 600;
     int height = 600;
     bool custom_dimension = false;
     bool running = true;
-    void poll_events();
     void update_and_render(float dt);
-    void set_mouse_wheel(int state);
-    bool mouse_wheel_up = false;
-    bool mouse_wheel_down = false;
-    int mouse_x = 0;
-    int mouse_y = 0;
+    void loop();
+
+    bool focused = false;
 
     // rendering
     int r = 255;
@@ -79,3 +79,4 @@ private:
     SDL_Cursor* cursor_type;
     // end rendering
 };
+

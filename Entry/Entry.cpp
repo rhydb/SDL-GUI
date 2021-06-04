@@ -1,5 +1,6 @@
 #include "Window.hpp"
 #include "Entry.hpp"
+#include "EventHandler.hpp"
 Entry::Entry(Parent *parent)
 : Widget(parent, 0, 0, 1, 1) {
     w = window->get_font_width() * 10;
@@ -97,7 +98,7 @@ void Entry::on_select() {
 
 void Entry::on_press() {
     Widget::on_press();
-    int mouse_x_rel = window->get_mouse_x() - x; // relative mouse x
+    int mouse_x_rel = EventHandler::get_mouse_x() - x; // relative mouse x
     int character = mouse_x_rel / window->get_font_width(); // character without respect to scroll
     if (character < contents.size()) {
         cursor_x = character * window->get_font_width(); // round it back up so that it locks to characters
