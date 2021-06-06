@@ -6,6 +6,9 @@ Checkbox::Checkbox(Parent* parent, std::string _text, bool* _variable)
 :Widget(parent, 0, 0, 0, 0) {
 	text = Text(window, _text);
 	variable = _variable;
+	if (variable != nullptr) {
+		checked = *variable;
+	}
 	update_dimensions();
 }
 
