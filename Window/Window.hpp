@@ -30,6 +30,7 @@ public:
     // rendering
     void draw_text(int x, int y, const char* text, SDL_Color color = { 255, 255, 255, 255 });
     void draw_rect(int x, int y, int w, int h, SDL_Color color, bool fill = false);
+    void draw_line(int x1, int y1, int x2, int y2, SDL_Color color = { 0, 0, 0 });
     inline void set_cursor(Cursor cursor) {
         switch (cursor) {
         case NORMAL: {
