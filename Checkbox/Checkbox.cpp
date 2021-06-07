@@ -50,9 +50,6 @@ void Checkbox::on_release() {
 	box_bg_g = 255;
 	box_bg_b = 255;
 	checked = !checked;
-	if (variable != nullptr) {
-		std::cout << "before: " << *variable << "\n";
+	if (variable != nullptr)
 		*variable = !*variable;
-		std::cout << "after: " << *variable << "\n";
-	}
 }
