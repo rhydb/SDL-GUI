@@ -34,7 +34,8 @@ void Button::grid(int row, int column) {
 }
 
 void Button::update_and_render(float dt) {
-    window->draw_rect(x, y, w, h, {b_r, b_g, b_b}, true);
+    window->draw_rect(x, y, w, h, { border_r, border_g, border_b }); // border
+    window->draw_rect(x+1, y+1, w-2, h-2, {b_r, b_g, b_b}, true); // background
     text.render(text_x, text_y, {f_r, f_g, f_b});
     Widget::update_and_render(dt);
 }
@@ -42,16 +43,22 @@ void Button::update_and_render(float dt) {
 void Button::on_hover() {
     Widget::on_hover();
     window->set_cursor(Window::Cursor::HAND);
-    Utils::swap(&f_r, &b_r);
+    /*Utils::swap(&f_r, &b_r);
     Utils::swap(&f_g, &b_g);
-    Utils::swap(&f_b, &b_b);
+    Utils::swap(&f_b, &b_b);*/
+    b_r = 22;
+    b_g = 22;
+    b_b = 22;
 }
 void Button::off_hover() {
     Widget::off_hover();
     window->set_cursor(Window::Cursor::NORMAL);
-    Utils::swap(&f_r, &b_r);
+    /*Utils::swap(&f_r, &b_r);
     Utils::swap(&f_g, &b_g);
-    Utils::swap(&f_b, &b_b);
+    Utils::swap(&f_b, &b_b);*/
+    b_r = 28;
+    b_g = 28;
+    b_b = 28;
 }
 
 void Button::on_press() {

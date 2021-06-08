@@ -25,13 +25,13 @@ private:
 	bool* variable = nullptr;
 
 	// foreground
-	Uint8 f_r = 0;
-	Uint8 f_g = 0;
-	Uint8 f_b = 0;
+	Uint8 f_r = 255;
+	Uint8 f_g = 255;
+	Uint8 f_b = 255;
 
-	Uint8 box_bg_r = 255;
-	Uint8 box_bg_g = 255;
-	Uint8 box_bg_b = 255;
+	Uint8 box_bg_r = 28;
+	Uint8 box_bg_g = 28;
+	Uint8 box_bg_b = 28;
 
 	
 

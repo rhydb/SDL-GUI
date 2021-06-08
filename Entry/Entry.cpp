@@ -8,20 +8,20 @@ Entry::Entry(Parent *parent)
 }
 
 void Entry::update_and_render(float dt) {
-    window->draw_rect(x, y, w, h, {0, 0, 0});
-    window->draw_rect(x+1, y+1, w-2, h-2, {255, 255, 255}, true);
+    window->draw_rect(x, y, w, h, { 55, 55, 55 }); // border
+    window->draw_rect(x+1, y+1, w-2, h-2, { 22, 22, 22 }, true); // background
     if (!contents.empty()) {
         std::string visible_text;
         for (int i = scroll_right; i < contents.size() && visible_text.size() < w / window->get_font_width(); i++) {
             visible_text.push_back(contents[i]);
         }
-        window->draw_text(x + 2, y + window->get_font_height() / 3, visible_text.c_str(), {0, 0, 0});
+        window->draw_text(x + 2, y+h/2 - window->get_font_height() / 2, visible_text.c_str(), { 255,255,255 }); // entered text
     } else {
         if (!placeholder.empty() && !typing) // draw the placeholder
-            window->draw_text(x + 2, y + window->get_font_height() / 3, placeholder.c_str(), {150, 150, 150}); // will go outside the box if long enough!
+            window->draw_text(x + 2, y + h / 2 - window->get_font_height() / 2, placeholder.c_str(), {150, 150, 150}); // will go outside the box if long enough!
     }
     if (typing)
-        window->draw_rect(x + cursor_x, y+2, 2, h-4, {0, 0, 0}, true);
+        window->draw_rect(x + cursor_x, y+h/2 - window->get_font_height() / 2, 2, window->get_font_height(), {255,255,255}, true); // cursor
     Widget::update_and_render(dt);
 }
 
@@ -99,11 +99,12 @@ void Entry::on_select() {
 void Entry::on_press() {
     Widget::on_press();
     int mouse_x_rel = EventHandler::get_mouse_x() - x; // relative mouse x
+
     int character = mouse_x_rel / window->get_font_width(); // character without respect to scroll
-    if (character < contents.size()) {
-        cursor_x = character * window->get_font_width(); // round it back up so that it locks to characters
-        cursor_position = scroll_right + character; // the true position
-    }
+    if (character > contents.size())
+        character = contents.size();
+    cursor_x = character * window->get_font_width(); // round it back up so that it locks to characters
+    cursor_position = scroll_right + character; // the true position
 }
 
 void Entry::on_deselect() {

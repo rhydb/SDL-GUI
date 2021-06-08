@@ -1,3 +1,10 @@
+/*
+Background: 30, 30, 30
+Darker: 22, 22, 22
+Middle: 28, 28, 28
+Lighter: 55, 55, 55
+Selected: 0, 120, 220
+*/
 
 #pragma once
 #include <SDL2/SDL.h>
@@ -31,6 +38,8 @@ public:
     void draw_text(int x, int y, const char* text, SDL_Color color = { 255, 255, 255, 255 });
     void draw_rect(int x, int y, int w, int h, SDL_Color color, bool fill = false);
     void draw_line(int x1, int y1, int x2, int y2, SDL_Color color = { 0, 0, 0 });
+    void draw_circle(int x, int y, int radius, SDL_Color color = {100, 100, 100});
+    void draw_circle_fill(int x, int y, int radius, SDL_Color color = { 100, 100, 100 });
     inline void set_cursor(Cursor cursor) {
         switch (cursor) {
         case NORMAL: {
@@ -68,9 +77,9 @@ private:
     bool focused = false;
 
     // rendering
-    int r = 255;
-    int g = 255;
-    int b = 255;
+    int r = 30;
+    int g = 30;
+    int b = 30;
     SDL_Renderer* renderer = nullptr;
     TTF_Font* font;
     int font_width;

@@ -1,6 +1,7 @@
 #include "Widget.hpp"
 #include "Window.hpp"
 #include "EventHandler.hpp"
+
 Widget::Widget(Parent *parent, int x, int y, int w, int h)
 :parent(parent), x(x), y(y), w(w), h(h) {
     window = parent->get_root();
@@ -22,7 +23,9 @@ void Widget::update_and_render(float dt) {
             collected_time += dt;
         }
     }
-
+#ifdef DRAW_DEBUG
+    window->draw_rect(x, y, w, h, { 255, 0, 0 });
+#endif
 }
 void Widget::on_hover() {
     show_tooltip = true;

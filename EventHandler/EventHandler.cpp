@@ -8,7 +8,6 @@ void EventHandler::Poll() {
             case SDL_WINDOWEVENT: {
                 switch (event.window.event) {
                     case SDL_WINDOWEVENT_CLOSE: {
-                        std::cout << "[CLOSE] event.window.windowID=" << event.window.windowID << "\twindow_id=" << windows[event.window.windowID]->window_id << std::endl;
                         windows[event.window.windowID]->quit();
                     } break;
                     case SDL_WINDOWEVENT_FOCUS_GAINED: {
@@ -78,9 +77,12 @@ void EventHandler::Poll() {
                 }
             } break;
             case SDL_MOUSEBUTTONUP: {
-                Widget* widget = windows[focused_window_id]->on_hover(mouse_x, mouse_y);
+                /*Widget* widget = windows[focused_window_id]->on_hover(mouse_x, mouse_y);
                 if (widget != nullptr)
-                    widget->on_release();
+                    widget->on_release();*/
+                if (selected_widget != nullptr) {
+                    selected_widget->on_release();
+                }
             } break;
             case SDL_MOUSEMOTION: {
                 if (mouse_focused_window_id == focused_window_id) {

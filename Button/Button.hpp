@@ -29,9 +29,14 @@ private:
     Uint8 f_g = 255;
     Uint8 f_b = 255;
     // background
-    Uint8 b_r = 0;
-    Uint8 b_g = 0;
-    Uint8 b_b = 0;
+    Uint8 b_r = 28;
+    Uint8 b_g = 28;
+    Uint8 b_b = 28;
+    // border
+    Uint8 border_r = 55;
+    Uint8 border_g = 55;
+    Uint8 border_b = 55;
+
 
     int padding_y = 10;
     int padding_x = 30;
