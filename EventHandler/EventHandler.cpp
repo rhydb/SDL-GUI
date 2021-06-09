@@ -1,6 +1,6 @@
 #include "EventHandler.hpp"
 
-void EventHandler::Poll() {
+void EventHandler::Poll(float dt) {
     SDL_StartTextInput();
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -15,7 +15,11 @@ void EventHandler::Poll() {
                         focused_window_id = event.window.windowID;
                     } break;
                     case SDL_WINDOWEVENT_FOCUS_LOST: {
+
                         windows[event.window.windowID]->focused = false;
+                        if (!windows[event.window.windowID]->running) {
+                            windows.erase(event.window.windowID);
+                        }
                         if (selected_widget != nullptr) {
                             selected_widget->on_deselect();
                             selected_widget = nullptr;
@@ -100,6 +104,10 @@ void EventHandler::Poll() {
         }
     }
     SDL_StopTextInput();
+    for (auto const& window : windows)
+    {
+        window.second->update_and_render(dt);
+    }
 }
 
 void EventHandler::set_mouse_wheel(int state) {

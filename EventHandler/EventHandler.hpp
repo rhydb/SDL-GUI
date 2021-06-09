@@ -3,7 +3,7 @@
 #include "Window.hpp"
 class EventHandler {
 public:
-	void Poll();
+	void Poll(float dt);
 	void set_mouse_wheel(int state);
 	static void register_window(Window* window) {
 		get().windows[window->window_id] = window;
@@ -17,6 +17,9 @@ public:
 	}
 	static int get_mouse_y() {
 		return get().mouse_y;
+	}
+	static void remove_window(int id) {
+		get().windows.erase(id);
 	}
 private:
 
