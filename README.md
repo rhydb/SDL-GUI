@@ -27,6 +27,22 @@ button->grid(0, 1);
 root.run();
 ```
 
+So far these widgets are implemented
+
+- Buttons
+- Labels
+- Entry boxes
+- Checkboxes
+- Frames
+
+## Dependencies
+
+To build, the following are required
+
+- SDL2 (`sudo apt install libsdl2-dev`)
+- SDL2_ttf (`sudo apt install libsdl2-ttf-dev`)
+
+
 ## Organisation
 
 Organisation can only be created using dynamic grids, meaning they will grow with the items that are 'gridded' and are bigger than previously gridded items.
