@@ -99,7 +99,6 @@ void Entry::on_select() {
 void Entry::on_press() {
     Widget::on_press();
     int mouse_x_rel = EventHandler::get_mouse_x() - x; // relative mouse x
-
     int character = mouse_x_rel / window->get_font_width(); // character without respect to scroll
     if (character > contents.size())
         character = contents.size();
