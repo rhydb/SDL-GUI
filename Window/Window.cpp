@@ -32,7 +32,7 @@ Window::Window() {
         return;
     }
 
-    renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC); // | SDL_RENDERER_PRESENTVSYNC)
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC); // | SDL_RENDERER_PRESENTVSYNC)
     if (renderer == nullptr) {
         SDL_LogError(0, "Failed to create renderer, window_id=%d: %s", window_id, SDL_GetError());
         return;
@@ -79,17 +79,6 @@ void Window::run() {
         EventHandler::remove_window(window_id);
         clean();
     }
-}
-
-void Window::loop() {
-    /*float delta_time = 0.0f;
-    while (running) {
-        update_and_render(delta_time);
-        delta_time = SDL_GetTicks() - last_time;
-        delta_time /= 1000;
-        last_time = SDL_GetTicks();
-    }
-    clean();*/
 }
 
 void Window::clean() {

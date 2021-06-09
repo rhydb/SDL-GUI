@@ -72,7 +72,6 @@ private:
     bool custom_dimension = false;
     bool running = true;
     void update_and_render(float dt);
-    void loop();
 
     bool focused = false;
 
