@@ -1,7 +1,7 @@
 project(SDL_GUI)
 
 set(CMAKE_CXX_STANDARD 17)
-
+set(CMAKE_CXX_FLAGS "-pthread")
 set(SDL2_INCLUDE_DIR C:/SDL2/include)
 set(SDL2_LIB_DIR C:/SDL2/lib/x64)
 include_directories(${SDL2_INCLUDE_DIR})
