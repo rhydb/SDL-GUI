@@ -64,7 +64,7 @@ void Window::run() {
         dimensions(width, height);
     }
     EventHandler::register_window(this);
-    if (window_id == 1) {
+    if (window_count == 1) {
         // start the event handler
         float last_time = 0.0f;
         float delta_time = 0.0f;
@@ -126,7 +126,8 @@ void Window::title(const char *title) {
 void Window::quit() {
     window_count--;
     running = false;
-    clean();
+    if (window_count != 0)
+        clean();
 }
 
 // rendering
