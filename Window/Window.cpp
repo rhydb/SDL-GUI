@@ -32,13 +32,13 @@ Window::Window() {
         return;
     }
 
-    renderer = SDL_CreateRenderer(window, 2, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC); // | SDL_RENDERER_PRESENTVSYNC)
+    renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC); // | SDL_RENDERER_PRESENTVSYNC)
     if (renderer == nullptr) {
         SDL_LogError(0, "Failed to create renderer, window_id=%d: %s", window_id, SDL_GetError());
         return;
     }
 
-    font = TTF_OpenFont("consola.ttf", 14);
+    font = TTF_OpenFont("font.ttf", 14);
     if (!font) {
         SDL_LogError(0, "Failed to load font: %s", TTF_GetError());
         return;
@@ -64,40 +64,32 @@ void Window::run() {
         dimensions(width, height);
     }
     EventHandler::register_window(this);
-
-    if (window_count > 1) {
-        // new thread
-        std::thread loop_thread(&Window::loop, this);
-        loop_thread.detach();
-
-        //loop();
-
-    }
-    else {
+    if (window_id == 1) {
         // start the event handler
         float last_time = 0.0f;
         float delta_time = 0.0f;
         while (running) {
-            EventHandler::get().Poll();
+            EventHandler::get().Poll(delta_time);
             update_and_render(delta_time);
+
             delta_time = SDL_GetTicks() - last_time;
             delta_time /= 1000;
             last_time = SDL_GetTicks();
         }
+        EventHandler::remove_window(window_id);
         clean();
     }
 }
 
 void Window::loop() {
-    float last_time = 0.0f;
-    float delta_time = 0.0f;
+    /*float delta_time = 0.0f;
     while (running) {
         update_and_render(delta_time);
         delta_time = SDL_GetTicks() - last_time;
         delta_time /= 1000;
         last_time = SDL_GetTicks();
     }
-    clean();
+    clean();*/
 }
 
 void Window::clean() {
@@ -109,7 +101,7 @@ void Window::clean() {
     //windows.erase(window_id);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    if (window_count == 0)
+    if (window_id == 1)
         SDL_Quit();
 }
 
@@ -145,6 +137,7 @@ void Window::title(const char *title) {
 void Window::quit() {
     window_count--;
     running = false;
+    clean();
 }
 
 // rendering
