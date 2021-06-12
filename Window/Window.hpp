@@ -22,7 +22,6 @@ public:
     enum Cursor { NORMAL, HAND, TYPE };
     Window();
     void title(const char* title);
-    inline void background(int red, int green, int blue) { r = red; b = blue; g = green; }
     void run();
     void dimensions(int _width, int _height) {
         width = _width;
@@ -58,6 +57,7 @@ public:
     inline TTF_Font* get_font() { return font; }
     // end rendering
     std::vector<std::function<void()>> top_level;
+    SDL_Color background = { 30, 30, 30 };
 
 private:
     static int window_count;
@@ -76,9 +76,6 @@ private:
     bool focused = false;
 
     // rendering
-    int r = 30;
-    int g = 30;
-    int b = 30;
     SDL_Renderer* renderer = nullptr;
     TTF_Font* font;
     int font_width;

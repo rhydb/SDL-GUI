@@ -95,7 +95,7 @@ void Window::clean() {
 }
 
 void Window::update_and_render(float dt) {
-    SDL_SetRenderDrawColor(renderer, r, g, b, 255); // background
+    SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, 255); // background
     SDL_RenderClear(renderer);
     Parent::update_and_render(dt); // update children
     for (int i = 0; i < top_level.size(); i++) {

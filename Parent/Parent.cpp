@@ -1,4 +1,5 @@
 #include "Parent.hpp"
+#include <assert.h>
 #include <iostream>
 
 Widget* Parent::on_hover(int x, int y) {
@@ -43,7 +44,6 @@ void Parent::update_and_render(float dt) {
 }
 
 void Parent::grid(Widget *widget, int row, int column) {
-
     if (row >= objects.size()) {
         // new row
         row = objects.size();

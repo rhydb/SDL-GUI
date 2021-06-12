@@ -29,7 +29,10 @@ public:
     virtual void set_y(int new_y) { y = new_y; }
     virtual int get_x() { return x; }
     virtual int get_y() { return y; }
-    virtual void set_w(int new_w) { w = new_w; }
+    virtual void set_w(int new_w) { 
+        w = new_w;
+
+    }
     virtual int get_w() { return w; }
     virtual void set_h(int new_h) { h = new_h; }
     virtual int get_h() { return h; }
@@ -41,6 +44,7 @@ protected:
     bool show_tooltip = false;
     bool has_tooltip = false;
     int x, y, w, h;
+    int row, column;
     float collected_time = 0;
     float tooltip_delay = 0.5;
 };

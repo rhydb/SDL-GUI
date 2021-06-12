@@ -3,23 +3,13 @@
 #include "Slider.hpp"
 
 
-Slider::Slider(Parent* parent, std::string text)
+Slider::Slider(Parent* parent)
 :Widget(parent, 0, 0, 100, 20) {
 	
 }
 
 void Slider::update_and_render(float dt) {
 	Widget::update_and_render(dt);
-
-	if (dragging) {
-		position_x = EventHandler::get_mouse_x();
-		if (position_x > x + w) {
-			position_x = x + w;
-		}
-		else if (position_x < x) {
-			position_x = x;
-		}
-	}
 
 	window->draw_line(x, y + h / 2, x + position_x, y + h / 2, { 0, 120, 220 }); // progress line
 	window->draw_line(x + position_x, y + h / 2, x + w, y + h / 2, { 55,55,55 });

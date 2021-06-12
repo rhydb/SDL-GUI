@@ -3,6 +3,7 @@
 #include "Widget.hpp"
 class Widget;
 class Window;
+enum class Placement {GRID, PLACE};
 class Parent {
 public:
     virtual Widget* get_target_widget(int x, int y) {return on_hover(x, y);} // make this the main call for the window.cpp event handler !!!
@@ -18,4 +19,6 @@ protected:
     virtual void update_and_render(float dt);
     int m_x = 0;
     int m_y = 0;
+    Placement placement;
+    bool placement_chosen;
 };

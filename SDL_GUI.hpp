@@ -7,3 +7,4 @@
 #include "Entry.hpp"
 #include "Window.hpp"
 #include "Slider.hpp"
+#include "SliderInt.hpp"

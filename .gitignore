@@ -4,3 +4,5 @@ cmake-build-debug/
 CMake*
 !CMakeLists.txt
 Makefile
+/.vs
+/out/build/x64-Debug
