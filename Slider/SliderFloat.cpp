@@ -10,29 +10,35 @@ SliderFloat::SliderFloat(Parent* parent, float _min, float _max, float* _variabl
 		max = _max;
 		min = _min;
 	}
-	if (max > w) {
-		w = max;
-	}
-	gap = w / (max - min);
+	variable = _variable;
 }
 
 void SliderFloat::update_and_render(float dt) {
 	if (dragging) {
-		position_x = EventHandler::get_mouse_x();
-		if (position_x > x + w) {
-			position_x = x + w;
+		position_x = EventHandler::get_mouse_x() - x;
+		if (position_x > w) {
+			position_x = w;
 		}
-		else if (position_x < x) {
-			position_x = x;
+		else if (position_x < 0) {
+			position_x = 0;
 		}
 		if (variable != nullptr)
-			*variable = min + get_percentage() * (max - min);
+			*variable = get(); // set the variable
 	}
 	else {
-		if (variable != nullptr) {
-			*variable = min + get_percentage() * (max - min);
-			position_x = *variable;
+		if (variable != nullptr) { // set position using variable;
+			float percent = *variable / max;
+			position_x = percent * w;
 		}
 	}
 	Slider::update_and_render(dt);
+}
+
+float SliderFloat::get() {
+	return min + get_percentage() * (max - min);
+}
+
+void SliderFloat::set(float value) {
+	if (variable != nullptr)
+		*variable = value;
 }
