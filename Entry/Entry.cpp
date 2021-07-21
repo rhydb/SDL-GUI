@@ -96,12 +96,6 @@ void Entry::on_key_press(SDL_Scancode key) {
     }
 }
 
-void Entry::on_key_release(SDL_Scancode key) {
-    if (key == SDL_SCANCODE_LSHIFT || key == SDL_SCANCODE_RSHIFT) {
-        shift = false;
-    }
-}
-
 void Entry::set_placeholder(std::wstring text) {
     placeholder = text;
     w = window->get_font_width() * text.length();

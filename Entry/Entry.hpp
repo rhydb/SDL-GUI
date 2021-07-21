@@ -13,14 +13,12 @@ public:
     void on_deselect();
     void on_press(); 
     void on_key_press(SDL_Scancode key);
-    void on_key_release(SDL_Scancode key);
     void on_text_input(char* text);
 
 private:
     int text_width = 1;
     int text_height = 1;
 
-    bool shift = false;
     int characters = 0;
     std::wstring contents;
     std::wstring visible_text;
