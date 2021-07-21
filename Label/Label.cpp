@@ -1,7 +1,7 @@
 #include "Window.hpp"
 #include "Label.hpp"
 
-Label::Label(Parent *parent, std::string text)
+Label::Label(Parent *parent, std::wstring text)
 : Widget(parent, 0, 0, 0, 0), Text(Widget::window, text){
     set(text);
 }
@@ -16,7 +16,7 @@ void Label::grid(int row, int column) {
     set(text);
 }
 
-void Label::set(std::string new_text) {
+void Label::set(std::wstring new_text) {
     Text::set(new_text);
     w = get_width() * Widget::window->get_font_width();
     h = get_line_count() * Widget::window->get_font_height();

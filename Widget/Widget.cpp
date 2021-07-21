@@ -37,7 +37,7 @@ void Widget::off_hover() {
     collected_time = 0;
 }
 
-void Widget::set_tooltip(std::string text) {
+void Widget::set_tooltip(std::wstring text) {
     has_tooltip = true;
     tooltip.set(text);
 }

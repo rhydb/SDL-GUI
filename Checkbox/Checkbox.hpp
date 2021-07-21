@@ -4,7 +4,7 @@
 
 class Checkbox : public Widget {
 public:
-	Checkbox(Parent* parent, std::string text, bool* variable = nullptr);
+	Checkbox(Parent* parent, std::wstring text, bool* variable = nullptr);
 	void update_and_render(float dt);
 	void grid(int row, int column);
 	void on_press();

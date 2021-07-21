@@ -1,16 +1,16 @@
 #include "Text.hpp"
 #include "Window.hpp"
 #include <assert.h>
-Text::Text(Window* window, std::string text) : window(window) {
+Text::Text(Window* window, std::wstring text) : window(window) {
     set(text);
 }
 
-void Text::set(std::string new_text) {
+void Text::set(std::wstring new_text) {
     text = new_text;
     lines.clear();
     lines.push_back({});
     int longest = 1;
-    for (char c : new_text) {
+    for (wchar_t c : new_text) {
         if (c == '\n') {
             // new line
             if (lines.back().size() > longest) {
@@ -27,9 +27,9 @@ void Text::set(std::string new_text) {
     width = longest;
 }
 
-std::string Text::get() {
-    std::string out;
-    for (std::string line : lines) {
+std::wstring Text::get() {
+    std::wstring out;
+    for (std::wstring line : lines) {
         out.append(line);
     }
     return out;
@@ -52,8 +52,10 @@ void Text::render(int x, int y, SDL_Color foreground, bool draw_background, SDL_
     if (draw_background)
         window->draw_rect(x, y, width * window->get_font_width() , lines.size() * window->get_font_height(), background, true);
     for (int i = 0; i < lines.size(); i++) {
-        if (lines[i].length() > 0) {// cant render nothing
-           window->draw_text(x, y + (i * window->get_font_height()), lines[i].c_str(), foreground);
+        if (!lines[i].empty()) {// cant render nothing
+            char buffer[lines[i].size() * 4];
+            wcstombs(buffer, lines[i].c_str(), lines[i].size() * 4);
+            window->draw_text(x, y + (i * window->get_font_height()), buffer, foreground);
         }
     }
 }
