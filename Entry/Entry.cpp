@@ -12,10 +12,6 @@ void Entry::update_and_render(float dt) {
     window->draw_rect(x, y, w, h, { 55, 55, 55 }); // border
     window->draw_rect(x+1, y+1, w-2, h-2, { 22, 22, 22 }, true); // background
     if (!contents.empty()) {
-        std::wstring visible_text;
-        for (int i = scroll_right; i < contents.size() && visible_text.size() < w / window->get_font_width(); i++) {
-            visible_text.push_back(contents[i]);
-        }
         char buffer_n[visible_text.size() * 4];
         wcstombs(buffer_n, visible_text.c_str(), visible_text.size() * 4);
         window->draw_text(x + 2, y+h/2 - window->get_font_height() / 2, buffer_n, { 255,255,255 }); // entered text
@@ -63,6 +59,10 @@ void Entry::on_text_input(char* text) {
     char buffer_n[contents.size() * 4];
     wcstombs(buffer_n, contents.c_str(), contents.size() * 4);
     TTF_SizeText(window->get_font(), buffer_n, &text_width, &text_height);
+    visible_text.clear();
+    for (int i = scroll_right; i < contents.size() && visible_text.size() < w / window->get_font_width(); i++) {
+        visible_text.push_back(contents[i]);
+    }
 }
 
 void Entry::on_key_press(SDL_Scancode key) {
@@ -90,6 +90,10 @@ void Entry::on_key_press(SDL_Scancode key) {
     char buffer_n[contents.size() * 4];
     wcstombs(buffer_n, contents.c_str(), contents.size() * 4);
     TTF_SizeText(window->get_font(), buffer_n, &text_width, &text_height);
+    visible_text.clear();
+    for (int i = scroll_right; i < contents.size() && visible_text.size() < w / window->get_font_width(); i++) {
+        visible_text.push_back(contents[i]);
+    }
 }
 
 void Entry::on_key_release(SDL_Scancode key) {
@@ -115,7 +119,13 @@ void Entry::on_press() {
     if (character > contents.size())
         character = contents.size();
     cursor_x = character * window->get_font_width(); // round it back up so that it locks to characters
+    if (cursor_x > visible_text.size() * window->get_font_width()) {
+        cursor_x = visible_text.size() * window->get_font_width();
+    }
     cursor_position = scroll_right + character; // the true position
+    if (cursor_position > contents.size()) {
+        cursor_position = contents.size();
+    }
 }
 
 void Entry::on_deselect() {

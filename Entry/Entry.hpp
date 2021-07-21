@@ -23,6 +23,7 @@ private:
     bool shift = false;
     int characters = 0;
     std::wstring contents;
+    std::wstring visible_text;
     std::wstring placeholder;
     int cursor_x = 2;
     int cursor_position = 0;
