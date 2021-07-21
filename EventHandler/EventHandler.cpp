@@ -9,6 +9,7 @@ void EventHandler::Poll(float dt) {
                 switch (event.window.event) {
                     case SDL_WINDOWEVENT_CLOSE: {
                         windows[event.window.windowID]->quit();
+                        // if windowID == 1 close all the other windows
                     } break;
                     case SDL_WINDOWEVENT_FOCUS_GAINED: {
                         windows[event.window.windowID]->focused = true;

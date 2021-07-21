@@ -21,6 +21,7 @@ public:
     inline void set_foreground(Uint8 r, Uint8 g, Uint8 b) {f_r = r; f_g = g; f_b = b;}
     void set_x(int new_x);
     void set_y(int new_y);
+    std::function<void()> callback;
 private:
 
     void update_dimensions();
@@ -43,6 +44,5 @@ private:
     int text_y;
     int text_x;
 
-    std::function<void()> callback;
     Text text;
 };

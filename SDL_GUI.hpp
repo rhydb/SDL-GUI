@@ -8,3 +8,4 @@
 #include "Window.hpp"
 #include "Slider.hpp"
 #include "SliderInt.hpp"
+#include "SliderFloat.hpp"

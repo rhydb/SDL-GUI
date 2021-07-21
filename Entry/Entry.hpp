@@ -3,9 +3,9 @@
 class Entry : public Widget {
 public:
     Entry(Parent* parent);
-    void set_placeholder(std::string text);
-    inline void set(std::string text) {contents = text;}
-    inline std::string get() {return contents;}
+    void set_placeholder(std::wstring text);
+    inline void set(std::wstring text) {contents = text;}
+    inline std::wstring get() {return contents;}
     void update_and_render(float dt);
     void on_hover();
     void off_hover();
@@ -21,8 +21,9 @@ private:
     int text_height = 1;
 
     bool shift = false;
-    std::string contents = "";
-    std::string placeholder = "";
+    int characters = 0;
+    std::wstring contents;
+    std::wstring placeholder;
     int cursor_x = 2;
     int cursor_position = 0;
     bool typing = false;

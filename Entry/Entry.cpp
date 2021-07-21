@@ -1,6 +1,7 @@
 #include "Window.hpp"
 #include "Entry.hpp"
 #include "EventHandler.hpp"
+#include <string.h>
 Entry::Entry(Parent *parent)
 : Widget(parent, 0, 0, 1, 1) {
     w = window->get_font_width() * 10;
@@ -11,14 +12,19 @@ void Entry::update_and_render(float dt) {
     window->draw_rect(x, y, w, h, { 55, 55, 55 }); // border
     window->draw_rect(x+1, y+1, w-2, h-2, { 22, 22, 22 }, true); // background
     if (!contents.empty()) {
-        std::string visible_text;
+        std::wstring visible_text;
         for (int i = scroll_right; i < contents.size() && visible_text.size() < w / window->get_font_width(); i++) {
             visible_text.push_back(contents[i]);
         }
-        window->draw_text(x + 2, y+h/2 - window->get_font_height() / 2, visible_text.c_str(), { 255,255,255 }); // entered text
+        char buffer_n[visible_text.size() * 4];
+        wcstombs(buffer_n, visible_text.c_str(), visible_text.size() * 4);
+        window->draw_text(x + 2, y+h/2 - window->get_font_height() / 2, buffer_n, { 255,255,255 }); // entered text
     } else {
-        if (!placeholder.empty() && !typing) // draw the placeholder
-            window->draw_text(x + 2, y + h / 2 - window->get_font_height() / 2, placeholder.c_str(), {150, 150, 150}); // will go outside the box if long enough!
+        if (!placeholder.empty() && !typing) {// draw the placeholder
+            char buffer[placeholder.size() * 4];
+            wcstombs(buffer, placeholder.c_str(), placeholder.size() * 4);
+            window->draw_text(x + 2, y + h / 2 - window->get_font_height() / 2, buffer, {150, 150, 150}); // will go outside the box if long enough!
+        }
     }
     if (typing)
         window->draw_rect(x + cursor_x, y+h/2 - window->get_font_height() / 2, 2, window->get_font_height(), {255,255,255}, true); // cursor
@@ -50,9 +56,13 @@ void Entry::move_cursor_left() {
 }
 
 void Entry::on_text_input(char* text) {
-    contents.insert(contents.begin() + cursor_position, *text);
+    wchar_t buffer_w[strlen(text) * 4];
+    mbstowcs(buffer_w, text, strlen(text) * 4);
+    contents.insert(cursor_position, buffer_w);
     move_cursor_right();
-    TTF_SizeText(window->get_font(), contents.c_str(), &text_width, &text_height);
+    char buffer_n[contents.size() * 4];
+    wcstombs(buffer_n, contents.c_str(), contents.size() * 4);
+    TTF_SizeText(window->get_font(), buffer_n, &text_width, &text_height);
 }
 
 void Entry::on_key_press(SDL_Scancode key) {
@@ -77,7 +87,9 @@ void Entry::on_key_press(SDL_Scancode key) {
         default: {
         } break;
     }
-    TTF_SizeText(window->get_font(), contents.c_str(), &text_width, &text_height);
+    char buffer_n[contents.size() * 4];
+    wcstombs(buffer_n, contents.c_str(), contents.size() * 4);
+    TTF_SizeText(window->get_font(), buffer_n, &text_width, &text_height);
 }
 
 void Entry::on_key_release(SDL_Scancode key) {
@@ -86,7 +98,7 @@ void Entry::on_key_release(SDL_Scancode key) {
     }
 }
 
-void Entry::set_placeholder(std::string text) {
+void Entry::set_placeholder(std::wstring text) {
     placeholder = text;
     w = window->get_font_width() * text.length();
 }

@@ -2,7 +2,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL.h>
 #include <iostream>
-#include <thread>
+#include <locale.h>
 #include "EventHandler.hpp"
 #include "Window.hpp"
 
@@ -53,7 +53,6 @@ Window::Window() {
 }
 
 void Window::run() {
-    
     if (!custom_dimension) {
         width = 0;
         height = 0;
@@ -65,6 +64,7 @@ void Window::run() {
     }
     EventHandler::register_window(this);
     if (window_count == 1) {
+        setlocale(LC_ALL, "");
         // start the event handler
         float last_time = 0.0f;
         float delta_time = 0.0f;
@@ -133,7 +133,7 @@ void Window::quit() {
 // rendering
 
 void Window::draw_text(int x, int y, const char* text, SDL_Color color) {
-    SDL_Surface* surface = TTF_RenderText_Blended(font, text, color);
+    SDL_Surface* surface = TTF_RenderUTF8_Blended(font, text, color);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_Rect src = {0, 0, surface->w, surface->h};
     float w = x;
