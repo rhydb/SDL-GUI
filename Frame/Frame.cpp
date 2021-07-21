@@ -1,12 +1,13 @@
 #include "Frame.hpp"
 Frame::Frame(Parent *parent)
 : Widget(parent, 0, 0, 0, 0)  {
+    type = WidgetType::FRAME;
 }
 
 void Frame::set_x(int newx) {
     int difference = newx - x;
     for (int i = 0; i < objects.size(); i++) {
-        for (int j = 0; j < objects[i].size(); i++) {
+        for (int j = 0; j < objects[i].size(); j++) {
             objects[i][j]->set_x(objects[i][j]->get_x() + difference);
         }
     }
@@ -17,7 +18,7 @@ void Frame::set_x(int newx) {
 void Frame::set_y(int newy) {
     int difference = newy - y;
     for (int i = 0; i < objects.size(); i++) {
-        for (int j = 0; j < objects[i].size(); i++) {
+        for (int j = 0; j < objects[i].size(); j++) {
             objects[i][j]->set_y(objects[i][j]->get_y() + difference);
         }
     }
@@ -46,10 +47,14 @@ void Frame::grid(int _row, int _column) {
     column = _column;
     m_x = x;
     m_y = y;
-   
 }
 
 void Frame::update_and_render(float dt) {
     Parent::update_and_render(dt);
     Widget::update_and_render(dt);
+}
+
+Widget* Frame::get_target_widget(int x, int y) {
+    puts("Frame on hover");
+    return Parent::on_hover(x, y);
 }

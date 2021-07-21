@@ -49,8 +49,8 @@ void Parent::grid(Widget *widget, int row, int column) {
         row = objects.size();
         objects.push_back(std::vector<Widget*> {});
         row_heights.push_back(widget->get_h());
+        
     }
-
     if (column >= objects[row].size()) {
         // new column
         column = objects[row].size();
@@ -67,6 +67,7 @@ void Parent::grid(Widget *widget, int row, int column) {
         }
         row_heights[row] = widget->get_h();
     }
+    
     if (widget->get_w() > column_widths[column]) {
         for (int i = 0; i < objects.size(); i++) {
             for (int j = column + 1; j < objects[i].size(); j++) {
@@ -75,14 +76,17 @@ void Parent::grid(Widget *widget, int row, int column) {
         }
         column_widths[column] = widget->get_w();
     }
+   
     widget->set_y(0);
     for (int i = 0; i < row; i++) {
         widget->set_y(widget->get_y() + row_heights[i]);
     }
+    
     widget->set_x(0);
     for (int i = 0; i < column; i++) {
         widget->set_x(widget->get_x() + column_widths[i]);
     }
+   
     objects[row][column] = widget;
 
 
