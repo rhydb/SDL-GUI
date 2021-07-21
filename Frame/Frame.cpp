@@ -55,6 +55,5 @@ void Frame::update_and_render(float dt) {
 }
 
 Widget* Frame::get_target_widget(int x, int y) {
-    puts("Frame on hover");
     return Parent::on_hover(x, y);
 }

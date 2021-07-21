@@ -5,6 +5,8 @@
 #include "Parent.hpp"
 #include <iostream>
 
+enum WidgetType {WIDGET, WINDOW, BUTTON, FRAME};
+
 class Parent;
 class Window;
 class Widget {
@@ -37,6 +39,7 @@ public:
     virtual void set_h(int new_h) { h = new_h; }
     virtual int get_h() { return h; }
     Widget(Parent* parent, int x, int y, int w, int h);
+    WidgetType type = WidgetType::WIDGET;
 protected:
     Window* window;
     Parent* parent;
