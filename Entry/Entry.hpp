@@ -4,7 +4,7 @@ class Entry : public Widget {
 public:
     Entry(Parent* parent);
     void set_placeholder(std::wstring text);
-    inline void set(std::wstring text) {contents = text;}
+    void set(std::wstring text);
     inline std::wstring get() {return contents;}
     void update_and_render(float dt);
     void on_hover();
@@ -31,6 +31,5 @@ private:
     int scroll_right = 0;
     void move_cursor_right();
     void move_cursor_left();
-
-
+    void calc_visible_text();
 };

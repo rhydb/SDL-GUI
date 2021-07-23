@@ -59,10 +59,7 @@ void Entry::on_text_input(char* text) {
     char buffer_n[contents.size() * 4];
     wcstombs(buffer_n, contents.c_str(), contents.size() * 4);
     TTF_SizeText(window->get_font(), buffer_n, &text_width, &text_height);
-    visible_text.clear();
-    for (int i = scroll_right; i < contents.size() && visible_text.size() < w / window->get_font_width(); i++) {
-        visible_text.push_back(contents[i]);
-    }
+    calc_visible_text();
 }
 
 void Entry::on_key_press(SDL_Scancode key) {
@@ -90,10 +87,19 @@ void Entry::on_key_press(SDL_Scancode key) {
     char buffer_n[contents.size() * 4];
     wcstombs(buffer_n, contents.c_str(), contents.size() * 4);
     TTF_SizeText(window->get_font(), buffer_n, &text_width, &text_height);
+    calc_visible_text();
+}
+
+void Entry::calc_visible_text() {
     visible_text.clear();
     for (int i = scroll_right; i < contents.size() && visible_text.size() < w / window->get_font_width(); i++) {
         visible_text.push_back(contents[i]);
     }
+}
+
+void Entry::set(std::wstring text) {
+    contents = text;
+    calc_visible_text();
 }
 
 void Entry::set_placeholder(std::wstring text) {
