@@ -14,6 +14,7 @@ void Button::update_dimensions() {
     //h = text.get_line_count() * 15 + padding_y;
     char buffer[text.get().size() * 4];
     wcstombs(buffer, text.get().c_str(), text.get().size() * 4);
+    // TODO: this stops set_w from working
     TTF_SizeText(window->get_font(), buffer, &w, &h);
     w += padding_x;
     h *= text.get_line_count();
