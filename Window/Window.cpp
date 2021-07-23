@@ -6,6 +6,13 @@
 #include "EventHandler.hpp"
 #include "Window.hpp"
 
+#ifdef _WIN32
+    #define LOCALE ".UTF8"
+    #define W_LOCALE L".UTF8"
+#else
+    #define LOCALE ""
+#endif
+
 #define GET_KEY(x) SDL_GetKeyName(SDL_GetKeyFromScancode(x))
 int Window::window_count = 0;
 
@@ -64,7 +71,10 @@ void Window::run() {
     }
     EventHandler::register_window(this);
     if (window_count == 1) {
-        setlocale(LC_ALL, "");
+        setlocale(LC_ALL, LOCALE);
+        #ifdef _WIN32
+            _wsetlocale(LC_ALL, W_LOCALE);
+        #endif
         // start the event handler
         float last_time = 0.0f;
         float delta_time = 0.0f;
