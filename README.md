@@ -34,6 +34,7 @@ So far these widgets are implemented
 - Entry boxes
 - Checkboxes
 - Frames
+- Slider (int & float)
 
 ## Dependencies
 
@@ -42,6 +43,14 @@ To build, the following are required
 - SDL2 (`sudo apt install libsdl2-dev`)
 - SDL2_ttf (`sudo apt install libsdl2-ttf-dev`)
 
+## Usage
+
+A valid `font.ttf` file should be in the same directory as the binary. This font should be **fixed width**. This font must be able to display any characters that you wish to display as there are no fallbacks.
+Additionally, all widgets should be created using the `new` keyword (`Widget *w = new Widget()`). This is to allow for cleaning up to take place once the window's `run()` has returned.
+
+There can be some issues with unicode on Windows due to `setlocale` which uses `setlocale(LC_ALL, ".UTF8")`, on Linux this is `setlocale(LC_ALL, "")`.
+
+To handle unicode, all strings are `std::wstring` and to communicate with SDL, which uses c-strings, `mbstowcs` and `wcstombs` are used. This means that any in-line strings being passed to widgets should be L strings (`L"text"`).
 
 ## Organisation
 
