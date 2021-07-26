@@ -39,7 +39,7 @@ So far these widgets are implemented
 A valid `font.ttf` file should be in the same directory as the binary. This font should be **fixed width**. This font must be able to display any characters that you wish to display as there are no fallbacks.
 Additionally, all widgets should be created using the `new` keyword (`Widget *w = new Widget()`). This is to allow for cleaning up to take place once the window's `run()` has returned.
 
-There can be some issues with unicode on Windows due to `setlocale` which uses `setlocale(LC_ALL, ".UTF8")`, on Linux this is `setlocale(LC_ALL, "")`.
+There can be some issues with unicode on Windows. I believe this is to do with Windows using 2 bytes for `wchar_t` while Linux uses 4. If there are other issues it may be a problem with `setlocale`.
 
 To handle unicode, all strings are `std::wstring` and to communicate with SDL, which uses c-strings, `mbstowcs` and `wcstombs` are used. This means that any in-line strings being passed to widgets should be L strings (`L"text"`).
 
