@@ -28,28 +28,24 @@ void Checkbox::grid(int row, int column) {
 
 void Checkbox::update_and_render(float dt) {
 	Widget::update_and_render(dt);
-	window->draw_rect(x + padding_x + 1, y + h / 2 - 6 + 1, 10, 10, { box_bg_r, box_bg_r, box_bg_r }, true); // background
+	window->draw_rect(x + padding_x + 1, y + h / 2 - 6 + 1, 10, 10, box_bg, true); // background
 	window->draw_rect(x + padding_x, y + h / 2 - 6, 12, 12, { 255,255,255 }); // border
-	text.render(x + spacing + padding_x, y + h / 2 - window->get_font_height() / 2, { f_r, f_g, f_b }); // text
+	text.render(x + spacing + padding_x, y + h / 2 - window->get_font_height() / 2, foreground); // text
 	if (checked) {
 		// draw the tick
 		// ugly!
-		window->draw_rect(x + padding_x + 2, y + h / 2 - 6 + 2, 8, 8, { 255,255,255 }, true); // border
+		window->draw_rect(x + padding_x + 2, y + h / 2 - 6 + 2, 8, 8, Theme::CHECKBOX_CHECK, true); // border
 	}
 }
 
 void Checkbox::on_press() {
 	Widget::on_press();
-	box_bg_r = 22;
-	box_bg_g = 22;
-	box_bg_b = 22;
+	box_bg = Theme::CHECKBOX_PRESS_BACKGROUND;
 }
 
 void Checkbox::on_release() {
 	Widget::on_release();
-	box_bg_r = 28;
-	box_bg_g = 28;
-	box_bg_b = 28;
+	box_bg = Theme::CHECKBOX_BACKGROUND;
 	checked = !checked;
 	if (variable != nullptr)
 		*variable = !*variable;

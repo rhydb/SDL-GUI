@@ -2,6 +2,7 @@
 #include "Entry.hpp"
 #include "EventHandler.hpp"
 #include <string.h>
+#include "Theme.hpp"
 Entry::Entry(Parent *parent)
 : Widget(parent, 0, 0, 1, 1) {
     w = window->get_font_width() * 10;
@@ -9,21 +10,21 @@ Entry::Entry(Parent *parent)
 }
 
 void Entry::update_and_render(float dt) {
-    window->draw_rect(x, y, w, h, { 55, 55, 55 }); // border
-    window->draw_rect(x+1, y+1, w-2, h-2, { 22, 22, 22 }, true); // background
+    window->draw_rect(x, y, w, h, Theme::ENTRY_BORDER); // border
+    window->draw_rect(x+1, y+1, w-2, h-2, Theme::ENTRY_BACKGROUND, true); // background
     if (!contents.empty()) {
         char buffer_n[visible_text.size() * 4];
         wcstombs(buffer_n, visible_text.c_str(), visible_text.size() * 4);
-        window->draw_text(x + 2, y+h/2 - window->get_font_height() / 2, buffer_n, { 255,255,255 }); // entered text
+        window->draw_text(x + 2, y+h/2 - window->get_font_height() / 2, buffer_n, Theme::ENTRY_FOREGROUND); // entered text
     } else {
         if (!placeholder.empty() && !typing) {// draw the placeholder
             char buffer[placeholder.size() * 4];
             wcstombs(buffer, placeholder.c_str(), placeholder.size() * 4);
-            window->draw_text(x + 2, y + h / 2 - window->get_font_height() / 2, buffer, {150, 150, 150}); // will go outside the box if long enough!
+            window->draw_text(x + 2, y + h / 2 - window->get_font_height() / 2, buffer, Theme::ENTRY_PLACEHOLDER_FOREGROUND); // will go outside the box if long enough!
         }
     }
     if (typing)
-        window->draw_rect(x + cursor_x, y+h/2 - window->get_font_height() / 2, 2, window->get_font_height(), {255,255,255}, true); // cursor
+        window->draw_rect(x + cursor_x, y+h/2 - window->get_font_height() / 2, 2, window->get_font_height(), Theme::ENTRY_CURSOR, true); // cursor
     Widget::update_and_render(dt);
 }
 

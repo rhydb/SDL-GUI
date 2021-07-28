@@ -1,6 +1,7 @@
 #pragma once
 #include "Widget.hpp"
 #include "Text.hpp"
+#include "Theme.hpp"
 
 class Checkbox : public Widget {
 public:
@@ -25,14 +26,7 @@ private:
 	bool* variable = nullptr;
 
 	// foreground
-	Uint8 f_r = 255;
-	Uint8 f_g = 255;
-	Uint8 f_b = 255;
+	SDL_Color foreground = Theme::CHECKBOX_FOREGROUND;
 
-	Uint8 box_bg_r = 28;
-	Uint8 box_bg_g = 28;
-	Uint8 box_bg_b = 28;
-
-	
-
+	SDL_Color box_bg = Theme::CHECKBOX_BACKGROUND;
 };

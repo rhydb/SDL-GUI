@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Theme.hpp"
 #include "Widget.hpp"
 
 class Slider : public Widget {
@@ -10,8 +11,11 @@ public:
 	void on_release();
 	void on_deselect();
 	float get_percentage();
+	SDL_Color circle_color = Theme::SLIDER_CIRCLE;
+	SDL_Color foreground = Theme::SLIDER_FOREGROUND;
+	SDL_Color background = Theme::SLIDER_BACKGROUND;
+	SDL_Color circle_border = { 255,255,255};
 protected:
 	int position_x = 0;
 	bool dragging = false;
-	SDL_Color circle_color = { 55, 55, 55 };
 };

@@ -4,6 +4,7 @@
 #include "Widget.hpp"
 #include "Parent.hpp"
 #include "Text.hpp"
+#include "Theme.hpp"
 
 class Button : public Widget {
 public:
@@ -17,30 +18,18 @@ public:
     void on_key_press(SDL_Scancode key);
     void on_key_release(SDL_Scancode key);
     void grid(int row, int column);
-    inline void set_background(Uint8 r, Uint8 g, Uint8 b) {b_r = r; b_g = g; b_b = b;}
-    inline void set_foreground(Uint8 r, Uint8 g, Uint8 b) {f_r = r; f_g = g; f_b = b;}
     void set_x(int new_x);
     void set_y(int new_y);
     std::function<void()> callback;
+    SDL_Color foreground = Theme::BUTTON_FOREGROUND;
+    SDL_Color background = Theme::BUTTON_BACKGROUND;
+    SDL_Color border = Theme::BUTTON_BORDER;
 private:
 
     void update_dimensions();
-    // foreground
-    Uint8 f_r = 255;
-    Uint8 f_g = 255;
-    Uint8 f_b = 255;
-    // background
-    Uint8 b_r = 28;
-    Uint8 b_g = 28;
-    Uint8 b_b = 28;
-    // border
-    Uint8 border_r = 55;
-    Uint8 border_g = 55;
-    Uint8 border_b = 55;
 
-
-    int padding_y = 10;
-    int padding_x = 30;
+    int padding_x = Theme::BUTTON_PADDING_X;
+    int padding_y = Theme::BUTTON_PADDING_Y;
     int text_y;
     int text_x;
 
