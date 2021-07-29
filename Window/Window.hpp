@@ -59,9 +59,12 @@ public:
     std::vector<std::function<void()>> top_level;
     std::vector<std::function<int()>> click_event_callbacks; // return 1 if the click event should not be forwarded to a widget
     SDL_Color background = { 30, 30, 30 };
+
+    static int windows_created;
 private:
     static int window_count;
-    int window_id;
+    int sdl_window_id;
+    int internal_window_id;
     SDL_Window* window;
     /*
     static std::map<int, Window*> windows;

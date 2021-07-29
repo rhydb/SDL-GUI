@@ -6,7 +6,7 @@ public:
 	void Poll(float dt);
 	void set_mouse_wheel(int state);
 	static void register_window(Window* window) {
-		get().windows[window->window_id] = window;
+		get().windows[window->sdl_window_id] = window;
 	}
 	static EventHandler& get() {
 		static EventHandler instance;
@@ -21,8 +21,12 @@ public:
 	static void remove_window(int id) {
 		get().windows.erase(id);
 	}
-private:
 
+	static void quit() {
+		get()._quit();
+	}
+private:
+	void _quit();
 	std::map<int, Window*> windows;
 	int focused_window_id = 1;
 	int mouse_focused_window_id = 1;

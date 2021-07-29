@@ -125,3 +125,12 @@ void EventHandler::set_mouse_wheel(int state) {
         mouse_wheel_down = true;
     }
 }
+
+void EventHandler::_quit() {
+    for (auto const& window : windows)
+    {
+        if (window.second->internal_window_id != 0) {
+            window.second->quit();
+        }
+    }
+}

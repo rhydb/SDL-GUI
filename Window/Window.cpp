@@ -15,6 +15,7 @@
 
 #define GET_KEY(x) SDL_GetKeyName(SDL_GetKeyFromScancode(x))
 int Window::window_count = 0;
+int Window::windows_created = 0;
 
 Window::Window() {
     if(SDL_Init(SDL_INIT_VIDEO)!=0){
@@ -32,7 +33,8 @@ Window::Window() {
     }
     SDL_WindowFlags windowFlags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
     window = SDL_CreateWindow("SDL-GUI Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, windowFlags);
-    window_id = SDL_GetWindowID(window);
+    sdl_window_id = SDL_GetWindowID(window);
+    internal_window_id = windows_created++;
     //windows[window_id] = this;
     if (window == nullptr) {
         SDL_LogError(0, "Failed to create window: %s", SDL_GetError());
@@ -41,7 +43,7 @@ Window::Window() {
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC); // | SDL_RENDERER_PRESENTVSYNC)
     if (renderer == nullptr) {
-        SDL_LogError(0, "Failed to create renderer, window_id=%d: %s", window_id, SDL_GetError());
+        SDL_LogError(0, "Failed to create renderer, sdl_window_id=%d: %s", sdl_window_id, SDL_GetError());
         return;
     }
 
@@ -70,7 +72,7 @@ void Window::run() {
         dimensions(width, height);
     }
     EventHandler::register_window(this);
-    if (window_count == 1) {
+    if (internal_window_id == 0) {
         setlocale(LC_ALL, LOCALE);
         #ifdef _WIN32
             _wsetlocale(LC_ALL, W_LOCALE);
@@ -86,8 +88,9 @@ void Window::run() {
             delta_time /= 1000;
             last_time = SDL_GetTicks();
         }
-        EventHandler::remove_window(window_id);
         clean();
+        EventHandler::quit();
+        SDL_Quit();
     }
 }
 
@@ -97,11 +100,8 @@ void Window::clean() {
             delete objects[i][j];
         }
     }
-    //windows.erase(window_id);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    if (window_id == 1)
-        SDL_Quit();
 }
 
 void Window::update_and_render(float dt) {
@@ -136,8 +136,9 @@ void Window::title(const char *title) {
 void Window::quit() {
     window_count--;
     running = false;
-    if (window_count != 0)
+    if (internal_window_id != 0) {
         clean();
+    }
 }
 
 // rendering
