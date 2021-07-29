@@ -27,5 +27,10 @@ SDL_Color Theme::CHECKBOX_PRESS_BACKGROUND      = {22 , 22 , 22};
 SDL_Color Theme::CHECKBOX_FOREGROUND            = {255, 255, 255};
 SDL_Color Theme::CHECKBOX_CHECK                 = {255, 255, 255};
 
+SDL_Color Theme::DROPDOWN_BACKGROUND            = {28 , 28 , 28};
+SDL_Color Theme::DROPDOWN_BORDER                = {55 , 55 , 55};
+SDL_Color Theme::DROPDOWN_FOREGROUND            = {255, 255, 255};
+SDL_Color Theme::DROPDOWN_HOVER_BACKGROUND      = {0  , 120, 220};
+
 SDL_Color Theme::TEXT_BACKGROUND                = {0  , 0  , 0};
 SDL_Color Theme::TEXT_FOREGROUND                = {255, 255, 255};

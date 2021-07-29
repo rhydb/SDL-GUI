@@ -27,6 +27,11 @@ struct Theme {
     static SDL_Color CHECKBOX_PRESS_BACKGROUND;
     static SDL_Color CHECKBOX_FOREGROUND;
     static SDL_Color CHECKBOX_CHECK;
+
+    static SDL_Color DROPDOWN_BACKGROUND;
+    static SDL_Color DROPDOWN_BORDER;
+    static SDL_Color DROPDOWN_FOREGROUND;
+    static SDL_Color DROPDOWN_HOVER_BACKGROUND;
     
     static SDL_Color TEXT_BACKGROUND;
     static SDL_Color TEXT_FOREGROUND;

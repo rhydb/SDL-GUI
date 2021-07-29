@@ -1,6 +1,6 @@
 #include "Frame.hpp"
 Frame::Frame(Parent *parent)
-: Widget(parent, 0, 0, 0, 0)  {
+: Widget(parent)  {
     type = WidgetType::FRAME;
 }
 

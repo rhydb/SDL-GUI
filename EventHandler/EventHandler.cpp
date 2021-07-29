@@ -69,22 +69,26 @@ void EventHandler::Poll(float dt) {
             } break;
 
             case SDL_MOUSEBUTTONDOWN: {
+                int should_pass = 0;
+                for (auto &callback : windows[focused_window_id]->click_event_callbacks) {
+                    should_pass |= callback();;
+                }
+                if (should_pass)
+                    break;
                 Widget* widget = windows[focused_window_id]->on_hover(mouse_x, mouse_y);
                 if (widget != nullptr) {
                     widget->on_press();
                 }
                 if (widget != selected_widget) {
-                    if (selected_widget != nullptr) // can these be merged?
+                    if (selected_widget != nullptr) {// can these be merged?
                         selected_widget->on_deselect();
+                    }
                     if (widget != nullptr)
                         widget->on_select();
                     selected_widget = widget;
                 }
             } break;
             case SDL_MOUSEBUTTONUP: {
-                /*Widget* widget = windows[focused_window_id]->on_hover(mouse_x, mouse_y);
-                if (widget != nullptr)
-                    widget->on_release();*/
                 if (selected_widget != nullptr) {
                     selected_widget->on_release();
                 }
