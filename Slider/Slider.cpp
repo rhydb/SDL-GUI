@@ -4,8 +4,9 @@
 
 
 Slider::Slider(Parent* parent)
-:Widget(parent, 0, 0, 100, 20) {
-	
+:Widget(parent) {
+	w = 100;
+	h = 20;
 }
 
 void Slider::update_and_render(float dt) {

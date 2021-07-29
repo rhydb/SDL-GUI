@@ -3,7 +3,7 @@
 #include "Checkbox.hpp"
 
 Checkbox::Checkbox(Parent* parent, std::wstring _text, bool* _variable)
-:Widget(parent, 0, 0, 0, 0) {
+:Widget(parent) {
 	text = Text(window, _text);
 	variable = _variable;
 	if (variable != nullptr) {

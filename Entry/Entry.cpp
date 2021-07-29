@@ -4,7 +4,7 @@
 #include <string.h>
 #include "Theme.hpp"
 Entry::Entry(Parent *parent)
-: Widget(parent, 0, 0, 1, 1) {
+: Widget(parent) {
     w = window->get_font_width() * 10;
     h = window->get_font_height() * 1.5;
 }

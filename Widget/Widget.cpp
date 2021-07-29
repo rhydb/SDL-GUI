@@ -2,8 +2,8 @@
 #include "Window.hpp"
 #include "EventHandler.hpp"
 
-Widget::Widget(Parent *parent, int x, int y, int w, int h)
-:parent(parent), x(x), y(y), w(w), h(h) {
+Widget::Widget(Parent *parent)
+:parent(parent) {
     window = parent->get_root();
     tooltip.window = window;
 }

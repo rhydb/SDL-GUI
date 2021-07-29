@@ -2,7 +2,7 @@
 #include "Label.hpp"
 
 Label::Label(Parent *parent, std::wstring text)
-: Widget(parent, 0, 0, 0, 0), Text(Widget::window, text){
+: Widget(parent), Text(Widget::window, text){
     set(text);
 }
 

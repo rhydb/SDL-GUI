@@ -11,6 +11,7 @@ class Parent;
 class Window;
 class Widget {
 public:
+    Widget(Parent* parent);
     virtual Widget* get_target_widget(int x, int y) {return this;}
     virtual void update_and_render(float dt);
     virtual void on_press() {}
@@ -38,7 +39,6 @@ public:
     virtual int get_w() { return w; }
     virtual void set_h(int new_h) { h = new_h; }
     virtual int get_h() { return h; }
-    Widget(Parent* parent, int x, int y, int w, int h);
     WidgetType type = WidgetType::WIDGET;
 protected:
     Window* window;
@@ -46,7 +46,10 @@ protected:
     Text tooltip;
     bool show_tooltip = false;
     bool has_tooltip = false;
-    int x, y, w, h;
+    int x = 0;
+    int y = 0;
+    int w = 0;
+    int h = 0;
     int row, column;
     float collected_time = 0;
     float tooltip_delay = 0.5;

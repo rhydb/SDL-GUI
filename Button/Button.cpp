@@ -4,7 +4,7 @@
 #include <iostream>
 Button::Button(Parent *parent, std::wstring _text, std::function<void()> callback)
 // hard code font height and width :)
-: Widget(parent, 0, 0, 0, 0), callback(callback) {
+: Widget(parent), callback(callback) {
     text = Text(window, _text);
     update_dimensions();
 }
