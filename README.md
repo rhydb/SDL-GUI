@@ -14,6 +14,8 @@ It uses SDL2 has a backend for creating windows, rendering shapes and colours an
 
 ## Usage
 
+### Structure
+
 Creating a basic app looks something like this
 
 ```c++
@@ -26,6 +28,32 @@ Button* button = new Button(&root, "Click me", [](){
 button->grid(0, 1);
 root.run();
 ```
+
+A Parent is created and Widgets are added onto that parent. If the parent is a Window, the window's `run()` method is called. Configuring a widget should ideally take place before adding it to the Parent, however there are some configurations (any that don't affect the look of the widget) which do not matter (binding events, setting tooltips etc) and can be done at any time.
+
+
+### Multiple Windows
+
+Closing the root window (the first window created / the window with `internal_window_id` of 0) will close all other windows and call `SDL_Quit()`. Because of this, the root window should be **created first** and its `run()` method **called last**. Everything in all windows runs on one thread.
+
+```c++
+Window root = Window();
+// add everything to the root window
+Label *label_1 = new Label(&root, L"Root label");
+label_1->grid();
+
+	// Create second window
+	Window second = Window();
+	Label *label_2 = new Label(&second, L"Second label");
+	label_2->grid();
+	second.run();
+
+root.run();
+```
+
+### Binding Events
+
+Events defined in the `WidgetEvents` enum class can have callbacks (`std::function<void()>`) pushed into a vector which will all be called when that event takes place. This method can be called at any time. For widgets with built-in event handling (i.e Buttons having their own callback for on_release), further callbacks can be added through this method.
 
 So far these widgets are implemented
 
