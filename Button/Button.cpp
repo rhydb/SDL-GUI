@@ -31,7 +31,7 @@ void Button::set_y(int newy) {
     text_y = (y + h / 2) - ((text.get_line_count() * window->get_font_height()) / 2);
 }
 
-void Button::grid(int row, int column) {
+void Button::grid(unsigned int row, unsigned int column) {
     Widget::grid(row, column);
     update_dimensions();
 }

@@ -7,7 +7,7 @@ enum class Placement {GRID, PLACE};
 class Parent {
 public:
     virtual Widget* get_target_widget(int x, int y) {return on_hover(x, y);} // make this the main call for the window.cpp event handler !!!
-    virtual void grid(Widget *widget, int row, int column);
+    virtual void grid(Widget *widget, unsigned int row, unsigned int column);
     virtual Widget* on_hover(int x, int y);
     virtual void off_hover(int x, int y) {}
     virtual Window* get_root() {return nullptr;}

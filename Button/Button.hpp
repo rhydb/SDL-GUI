@@ -17,7 +17,7 @@ public:
     void on_release();
     void on_key_press(SDL_Scancode key);
     void on_key_release(SDL_Scancode key);
-    void grid(int row, int column);
+    void grid(unsigned int row = -1, unsigned int column = -1);
     void set_x(int new_x);
     void set_y(int new_y);
     std::function<void()> callback;

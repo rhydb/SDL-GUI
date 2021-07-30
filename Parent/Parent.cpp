@@ -43,7 +43,7 @@ void Parent::update_and_render(float dt) {
 
 }
 
-void Parent::grid(Widget *widget, int row, int column) {
+void Parent::grid(Widget *widget, unsigned int row, unsigned int column) {
     if (row >= objects.size()) {
         // new row
         row = objects.size();

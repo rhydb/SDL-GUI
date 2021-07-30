@@ -11,7 +11,7 @@ void Label::update_and_render(float dt) {
     Widget::update_and_render(dt);
 }
 
-void Label::grid(int row, int column) {
+void Label::grid(unsigned int row, unsigned int column) {
     Widget::grid(row, column);
     set(text);
 }

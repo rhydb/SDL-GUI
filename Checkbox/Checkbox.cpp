@@ -21,7 +21,7 @@ void Checkbox::update_dimensions() {
 	h += padding_y;
 }
 
-void Checkbox::grid(int row, int column) {
+void Checkbox::grid(unsigned int row, unsigned int column) {
 	Widget::grid(row, column);
 	update_dimensions();
 }

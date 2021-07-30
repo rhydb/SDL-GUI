@@ -23,7 +23,7 @@ public:
     virtual void on_select() {}
     virtual void on_deselect() {}
     virtual void on_text_input(char* text) {}
-    virtual void grid(int row, int column);
+    virtual void grid(unsigned int row = -1, unsigned int column = -1);
     void set_tooltip(std::wstring text);
     inline void set_tooltip_delay(float seconds) { tooltip_delay = seconds; }
     void remove_tooltip();

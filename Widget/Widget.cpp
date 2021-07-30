@@ -8,7 +8,7 @@ Widget::Widget(Parent *parent)
     tooltip.window = window;
 }
 
-void Widget::grid(int row, int column) {
+void Widget::grid(unsigned int row, unsigned int column) {
     parent->grid(this, row, column);
 }
 

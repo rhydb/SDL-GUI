@@ -26,7 +26,7 @@ void Frame::set_y(int newy) {
     m_y = y;
 }
 
-void Frame::grid(Widget *widget, int _row, int _column) {
+void Frame::grid(Widget *widget, unsigned int _row, unsigned int _column) {
     Parent::grid(widget, _row, _column);
 
     w = 0;
@@ -41,7 +41,7 @@ void Frame::grid(Widget *widget, int _row, int _column) {
     widget->set_y(widget->get_y() + y);
 }
 
-void Frame::grid(int _row, int _column) {
+void Frame::grid(unsigned int _row, unsigned int _column) {
     Widget::grid(_row, _column);
     row = _row;
     column = _column;
