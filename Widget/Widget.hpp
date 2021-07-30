@@ -4,25 +4,42 @@
 #include "Text.hpp"
 #include "Parent.hpp"
 #include <iostream>
+#include <map>
+#include <functional>
 
 enum WidgetType {WIDGET, WINDOW, BUTTON, FRAME};
+
+enum class WidgetEvent {
+    ON_PRESS,
+    ON_RELEASE,
+    ON_KEY_PRESS,
+    ON_KEY_RELEASE,
+    ON_HOVER,
+    OFF_HOVER,
+    ON_SELECT,
+    ON_DESELECT,
+    ON_TEXT_INPUT
+};
 
 class Parent;
 class Window;
 class Widget {
 public:
     Widget(Parent* parent);
+
+    void bind(WidgetEvent event, std::function<void()> callback);
+
     virtual Widget* get_target_widget(int x, int y) {return this;}
     virtual void update_and_render(float dt);
-    virtual void on_press() {}
-    virtual void on_release() {}
-    virtual void on_key_press(SDL_Scancode key) {}
-    virtual void on_key_release(SDL_Scancode key) {}
+    virtual void on_press() {call_callbacks(WidgetEvent::ON_PRESS);}
+    virtual void on_release() {call_callbacks(WidgetEvent::ON_RELEASE);}
+    virtual void on_key_press(SDL_Scancode key) {call_callbacks(WidgetEvent::ON_KEY_PRESS);}
+    virtual void on_key_release(SDL_Scancode key) {call_callbacks(WidgetEvent::ON_KEY_RELEASE);}
     virtual void on_hover();
     virtual void off_hover();
-    virtual void on_select() {}
-    virtual void on_deselect() {}
-    virtual void on_text_input(char* text) {}
+    virtual void on_select() {call_callbacks(WidgetEvent::ON_SELECT);}
+    virtual void on_deselect() {call_callbacks(WidgetEvent::ON_DESELECT);}
+    virtual void on_text_input(char* text) {call_callbacks(WidgetEvent::ON_TEXT_INPUT);}
     virtual void grid(unsigned int row = -1, unsigned int column = -1);
     void set_tooltip(std::wstring text);
     inline void set_tooltip_delay(float seconds) { tooltip_delay = seconds; }
@@ -53,4 +70,8 @@ protected:
     int row, column;
     float collected_time = 0;
     float tooltip_delay = 0.5;
+
+    std::map<WidgetEvent, std::vector<std::function<void()>>> event_callbacks;
+private:
+    void call_callbacks(WidgetEvent event);
 };

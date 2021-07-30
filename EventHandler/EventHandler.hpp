@@ -25,6 +25,7 @@ public:
 	static void quit() {
 		get()._quit();
 	}
+
 private:
 	void _quit();
 	std::map<int, Window*> windows;
