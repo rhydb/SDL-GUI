@@ -65,6 +65,19 @@ void EventHandler::Poll(float dt) {
                 }
             } break;
             case SDL_MOUSEWHEEL: {
+                if(event.wheel.y > 0) {
+                    // scroll up
+                    if (selected_widget != nullptr) {
+                        selected_widget->on_wheel_up();
+                    }
+                }
+                else if(event.wheel.y < 0) {
+                    // scroll down
+                    if (selected_widget != nullptr) {
+                        selected_widget->on_wheel_down();
+                    }
+                }
+
             } break;
 
             case SDL_MOUSEBUTTONDOWN: {

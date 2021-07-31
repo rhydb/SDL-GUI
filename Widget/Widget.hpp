@@ -18,7 +18,9 @@ enum class WidgetEvent {
     OFF_HOVER,
     ON_SELECT,
     ON_DESELECT,
-    ON_TEXT_INPUT
+    ON_TEXT_INPUT,
+    ON_WHEEL_UP,
+    ON_WHEEL_DOWN
 };
 
 class Parent;
@@ -40,6 +42,8 @@ public:
     virtual void on_select() {call_callbacks(WidgetEvent::ON_SELECT);}
     virtual void on_deselect() {call_callbacks(WidgetEvent::ON_DESELECT);}
     virtual void on_text_input(char* text) {call_callbacks(WidgetEvent::ON_TEXT_INPUT);}
+    virtual void on_wheel_up() {call_callbacks(WidgetEvent::ON_WHEEL_UP);}
+    virtual void on_wheel_down() {call_callbacks(WidgetEvent::ON_WHEEL_DOWN);}
     virtual void grid(unsigned int row = -1, unsigned int column = -1);
     void set_tooltip(std::wstring text);
     inline void set_tooltip_delay(float seconds) { tooltip_delay = seconds; }
