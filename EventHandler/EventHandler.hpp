@@ -4,7 +4,6 @@
 class EventHandler {
 public:
 	void Poll(float dt);
-	void set_mouse_wheel(int state);
 	static void register_window(Window* window) {
 		get().windows[window->sdl_window_id] = window;
 	}
@@ -31,8 +30,6 @@ private:
 	std::map<int, Window*> windows;
 	int focused_window_id = 1;
 	int mouse_focused_window_id = 1;
-	bool mouse_wheel_up;
-	bool mouse_wheel_down;
 	int mouse_x, mouse_y;
 	bool running;
 	Widget* current_hover = nullptr;

@@ -65,7 +65,6 @@ void EventHandler::Poll(float dt) {
                 }
             } break;
             case SDL_MOUSEWHEEL: {
-                set_mouse_wheel(event.wheel.y);
             } break;
 
             case SDL_MOUSEBUTTONDOWN: {
@@ -112,17 +111,6 @@ void EventHandler::Poll(float dt) {
     for (auto const& window : windows)
     {
         window.second->update_and_render(dt);
-    }
-}
-
-void EventHandler::set_mouse_wheel(int state) {
-    if (state > 0) {
-        // scroll up
-        mouse_wheel_up = true;
-    }
-    else if (state < 0) {
-        //scroll down
-        mouse_wheel_down = true;
     }
 }
 
