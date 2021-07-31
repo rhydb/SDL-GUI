@@ -6,6 +6,7 @@
 class Window;
 class Text {
 public:
+    friend class Textbox;
     Text() {}
     Text(Window* window, std::wstring text);
     virtual void set(std::wstring new_text);
@@ -13,6 +14,8 @@ public:
     void render(int x, int y, SDL_Color foreground = Theme::TEXT_FOREGROUND, bool draw_background = false, SDL_Color background = Theme::TEXT_BACKGROUND);
     int get_line_count();
     int get_width();
+    bool empty();
+    void clear();
     Window* window = nullptr;
 protected:
     std::wstring text;

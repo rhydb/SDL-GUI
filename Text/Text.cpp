@@ -21,9 +21,9 @@ void Text::set(std::wstring new_text) {
              lines.back().push_back(c);
         }
     }
-     if (lines.back().size() > longest) {
-         longest = lines.back().size();
-     }
+    if (lines.back().size() > longest) {
+        longest = lines.back().size();
+    }
     width = longest;
 }
 
@@ -57,5 +57,20 @@ void Text::render(int x, int y, SDL_Color foreground, bool draw_background, SDL_
             wcstombs(buffer, lines[i].c_str(), lines[i].size() * 4);
             window->draw_text(x, y + (i * window->get_font_height()), buffer, foreground);
         }
+    }
+}
+
+bool Text::empty() {
+    for (int i = 0; i < lines.size(); i++) {
+        if (!lines[i].empty()) {// cant render nothing
+            return false;
+        }
+    }
+    return true;
+}
+
+void Text::clear() {
+    for (int i = 0; i < lines.size(); i++) {
+        lines[i].clear();
     }
 }
