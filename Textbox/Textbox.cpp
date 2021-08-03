@@ -77,7 +77,7 @@ void Textbox::move_cursor_up() {
 void Textbox::move_cursor_down() {
     if (cursor_line+1 < contents.get_line_count()) {
         cursor_line++;
-        if (cursor_line-scroll_down > visible_text.get_line_count()-1) {
+        if (cursor_line-scroll_down >= line_count) {
             scroll_down++;
         } else {
             cursor_y += window->get_font_height();
@@ -154,8 +154,13 @@ void Textbox::move_cursor_left() {
 }
 
 void Textbox::new_line() {
-    contents.lines.insert(contents.lines.begin() + cursor_line+1, L"");
+    // TODO: if new_line in the middle of a line, take the right side of the cursor with it
+    std::wstring right_side = contents.lines[cursor_line].substr(cursor_position, std::wstring::npos); // all text to the right of cursor
+    contents.lines[cursor_line].erase(cursor_position, std::wstring::npos);
+    contents.lines.insert(contents.lines.begin() + cursor_line+1, right_side);
     move_cursor_down();
+    cursor_position = 0; // put cursor at the beginning of the line
+    cursor_x = padding;
 }
 
 // events
