@@ -34,3 +34,6 @@ SDL_Color Theme::DROPDOWN_HOVER_BACKGROUND      = {0  , 120, 220};
 
 SDL_Color Theme::TEXT_BACKGROUND                = {0  , 0  , 0};
 SDL_Color Theme::TEXT_FOREGROUND                = {255, 255, 255};
+
+SDL_Color Theme::TOOLTIP_BACKGROUND             = {0  , 0  , 0};
+SDL_Color Theme::TOOLTIP_FOREGROUND             = {255, 255, 255};

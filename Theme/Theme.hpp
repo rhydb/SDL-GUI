@@ -35,4 +35,7 @@ struct Theme {
     
     static SDL_Color TEXT_BACKGROUND;
     static SDL_Color TEXT_FOREGROUND;
+
+    static SDL_Color TOOLTIP_BACKGROUND;
+    static SDL_Color TOOLTIP_FOREGROUND;
 };
