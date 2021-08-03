@@ -5,8 +5,8 @@
 #include "Theme.hpp"
 Entry::Entry(Parent *parent)
 : Widget(parent) {
-    w = window->get_font_width() * 10;
-    h = window->get_font_height() * 1.5;
+    w = window->get_font_width() * 10; // minimum width of 10 characters (if there is no palceholder)
+    h = window->get_font_height() * 1.5; // some padding
 }
 
 void Entry::update_and_render(float dt) {
@@ -99,6 +99,7 @@ void Entry::calc_visible_text() {
 }
 
 void Entry::set(std::wstring text) {
+    scroll_right = 0;
     contents = text;
     calc_visible_text();
 }
