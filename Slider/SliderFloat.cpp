@@ -39,6 +39,12 @@ float SliderFloat::get() {
 }
 
 void SliderFloat::set(float value) {
+	if (value > max)
+		value = max;
+	else if (value < min)
+		value = min;
 	if (variable != nullptr)
 		*variable = value;
+	float percent = value / max;
+	position_x = percent * w;
 }

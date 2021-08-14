@@ -6,6 +6,7 @@
 class Slider : public Widget {
 public:
 	Slider(Parent* parent);
+	void grid(unsigned int row = -1, unsigned int column = -1);
 	virtual void update_and_render(float dt);
 	void on_press();
 	void on_release();

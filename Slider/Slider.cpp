@@ -11,10 +11,10 @@ Slider::Slider(Parent* parent)
 
 void Slider::update_and_render(float dt) {
 	Widget::update_and_render(dt);
-	window->draw_line(x, y + h / 2, x + position_x, y + h / 2, foreground); // progress line
-	window->draw_line(x + position_x, y + h / 2, x + w, y + h / 2, background);
+	window->draw_line(x, y + h / 2, x+position_x, y + h / 2, foreground); // progress line
+	window->draw_line(x+position_x, y + h / 2, x + w, y + h / 2, background);
 
-	window->draw_line(x + position_x, y+5, x + position_x, y+h-5, {255, 255, 255});
+	window->draw_line(x+position_x, y+5, x+position_x, y+h-5, {255, 255, 255});
 
 	/*
 	window->draw_circle_fill(position_x + x, y + h / 2, 5, circle_border); // circle border
@@ -42,4 +42,11 @@ void Slider::on_deselect() {
 	Widget::on_deselect();
 	dragging = false;
 	circle_color = Theme::SLIDER_BACKGROUND;
+}
+
+void Slider::grid(unsigned int row, unsigned int column) {
+	Widget::grid(row, column);
+	if (position_x == 0) { // this will not be 0 if set() has been called
+		position_x = x;
+	}
 }

@@ -8,6 +8,7 @@ public:
 	int get() { 
 		return position_x / gap;
 	}
+	void set(int value);
 	int* variable;
 	bool show_lines = false;
 private:
