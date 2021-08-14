@@ -1,5 +1,7 @@
 #include "Theme.hpp"
 
+SDL_Color Theme::WINDOW_BACKGROUND              = {30, 30, 30};
+
 SDL_Color Theme::BUTTON_BACKGROUND              = {28 , 28 , 28};
 SDL_Color Theme::BUTTON_HOVER_BACKGROUND        = {22 , 22 , 22};
 SDL_Color Theme::BUTTON_FOREGROUND              = {255, 255, 255};
@@ -15,7 +17,6 @@ SDL_Color Theme::ENTRY_CURSOR                   = {255, 255, 255};
 
 SDL_Color Theme::LABEL_FOREGROUND               = {255, 255, 255};
 SDL_Color Theme::LABEL_BACKGROUND               = {255, 255, 255};
-SDL_Color Theme::WINDOW_BACKGROUND              = {255, 255, 255};
 
 SDL_Color Theme::SLIDER_BACKGROUND              = {55 , 55 , 55};
 SDL_Color Theme::SLIDER_FOREGROUND              = {0  , 120, 220};
