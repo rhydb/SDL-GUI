@@ -88,6 +88,7 @@ void Parent::grid(Widget *widget, unsigned int row, unsigned int column) {
     }
    
     objects[row][column] = widget;
-
+    widget->row = row;
+    widget->column = column;
 
 }
