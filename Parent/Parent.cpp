@@ -36,12 +36,12 @@ Widget* Parent::on_hover_grid(int x, int y) {
 }
 
 Widget* Parent::on_hover_place(int x, int y) {
-    for (Widget *w : objects.back()) {
-        if (x <= w->get_x() + w->get_w() &&
-            x >= w->get_x() &&
-            y <= w->get_y() + w->get_h() &&
-            y >= w->get_y()) {
-            return w->get_target_widget(x, y);
+    for (int i = objects.back().size()-1; i >= 0; i--) {
+        if (x <= objects.back()[i]->get_x() + objects.back()[i]->get_w() &&
+            x >= objects.back()[i]->get_x() &&
+            y <= objects.back()[i]->get_y() + objects.back()[i]->get_h() &&
+            y >= objects.back()[i]->get_y()) {
+            return objects.back()[i]->get_target_widget(x, y);
         }
     }
     return nullptr;
