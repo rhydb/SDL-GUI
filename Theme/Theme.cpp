@@ -18,7 +18,7 @@ SDL_Color Theme::ENTRY_CURSOR                   = {255, 255, 255};
 SDL_Color Theme::LABEL_FOREGROUND               = {255, 255, 255};
 SDL_Color Theme::LABEL_BACKGROUND               = {255, 255, 255};
 
-SDL_Color Theme::SLIDER_BACKGROUND              = {55 , 55 , 55};
+SDL_Color Theme::SLIDER_BACKGROUND              = {22 , 22 , 22};
 SDL_Color Theme::SLIDER_FOREGROUND              = {0  , 120, 220};
 SDL_Color Theme::SLIDER_CLICK_BACKGROUND        = {22 , 22 , 22};
 SDL_Color Theme::SLIDER_CIRCLE                  = {55 , 55 , 55};
