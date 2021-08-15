@@ -6,8 +6,6 @@
 class Slider : public Widget {
 public:
 	Slider(Parent* parent);
-	void grid(unsigned int row = -1, unsigned int column = -1);
-	virtual void update_and_render(float dt);
 	void on_press();
 	void on_release();
 	void on_deselect();
@@ -17,6 +15,11 @@ public:
 	SDL_Color background = Theme::SLIDER_BACKGROUND;
 	SDL_Color circle_border = { 255,255,255};
 protected:
+	virtual void update_and_render(float dt);
 	int position_x = 0;
 	bool dragging = false;
+private:
+	void render_thin();
+	void render_thick();
+	void (Slider::*render_fp)(void);
 };
