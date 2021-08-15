@@ -39,6 +39,7 @@ public:
     void draw_line(int x1, int y1, int x2, int y2, SDL_Color color = { 0, 0, 0 });
     void draw_circle(int x, int y, int radius, SDL_Color color = {100, 100, 100});
     void draw_circle_fill(int x, int y, int radius, SDL_Color color = { 100, 100, 100 });
+    void draw_rounded_rect(int x, int y, int w, int h, int r, SDL_Color color = {100, 100, 100}, bool fill = false);
     inline void set_cursor(Cursor cursor) {
         switch (cursor) {
         case NORMAL: {
@@ -86,6 +87,16 @@ private:
     SDL_Cursor* cursor_hand;
     SDL_Cursor* cursor_normal;
     SDL_Cursor* cursor_type;
+
+    // some functions for drawing rounded rectangle
+    void DrawFillCircleTopLeft(int x, int y, int radius);
+    void DrawFillCircleBottomLeft(int x, int y, int radius);
+    void DrawFillCircleTopRight(int x, int y, int radius);
+    void DrawFillCircleBottomRight(int x, int y, int radius);
+    void DrawTopLeftCircle(int32_t centreX, int32_t centreY, int32_t radius);
+    void DrawTopRightCircle(int32_t centreX, int32_t centreY, int32_t radius);
+    void DrawBottomLeftCircle(int32_t centreX, int32_t centreY, int32_t radius);
+    void DrawBottomRightCircle(int32_t centreX, int32_t centreY, int32_t radius);
     // end rendering
 };
 

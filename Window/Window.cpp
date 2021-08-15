@@ -165,6 +165,37 @@ void Window::draw_rect(int x, int y, int w, int h, SDL_Color color, bool fill) {
         SDL_RenderDrawRect(renderer, &rect);
 }
 
+void Window::draw_rounded_rect(int x, int y, int w, int h, int r, SDL_Color color, bool fill) {
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    if (fill) {
+        DrawFillCircleTopLeft(x + r, y + r, r);
+        DrawFillCircleBottomLeft(x + r, y + h - r, r);
+        DrawFillCircleTopRight(x + w - r, y + r, r);
+        DrawFillCircleBottomRight(x + w - r, y + h - r, r);
+        // // connect them
+        SDL_Rect temp_rect = {x + r, y, w - r*2, r};
+        SDL_RenderFillRect(renderer, &temp_rect); // top
+        temp_rect = {x, y+r, r, h - r*2};
+        SDL_RenderFillRect(renderer, &temp_rect); // left
+        temp_rect = {x + w - r, y + r, r+1, h - r*2};
+        SDL_RenderFillRect(renderer, &temp_rect); // right
+        temp_rect = {x + r, y + h - r, w - r*2, r+1};
+        SDL_RenderFillRect(renderer, &temp_rect); // bottom
+        temp_rect = {x + r, y + r, w - r*2, h - r*2+1};
+        SDL_RenderFillRect(renderer, &temp_rect); // middle
+    } else {
+        DrawTopLeftCircle(x + r, y + r, r);
+        DrawBottomLeftCircle(x + r, y + h - r, r);
+        DrawTopRightCircle(x + w - r, y + r, r);
+        DrawBottomRightCircle(x + w - r, y + h - r, r);
+        // connect them
+        SDL_RenderDrawLine(renderer, x + r, y, x + w - r, y); // top
+        SDL_RenderDrawLine(renderer, x, y+r, x, y + h - r); // left
+        SDL_RenderDrawLine(renderer, x + w, y + r, x + w, y + h - r); // right
+        SDL_RenderDrawLine(renderer, x + r, y + h, x + w - r, y + h); // bottom
+    }
+}
+
 void Window::draw_line(int x1, int y1, int x2, int y2, SDL_Color color) {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
@@ -255,4 +286,251 @@ void Window::draw_circle_fill(int x, int y, int radius, SDL_Color color)
             offsetx += 1;
         }
     }
+}
+
+// functions for rounded rect
+
+void
+Window::DrawFillCircleTopLeft(int x, int y, int radius)
+{
+    int offsetx, offsety, d;
+
+    offsetx = 0;
+    offsety = radius;
+    d = radius -1;
+
+    while (offsety >= offsetx) {
+
+        SDL_RenderDrawLine(renderer, x - offsetx, y - offsety,
+                                     x, y - offsety);
+        SDL_RenderDrawLine(renderer, x - offsety, y - offsetx,
+                                     x, y - offsetx);
+        if (d >= 2*offsetx) {
+            d -= 2*offsetx + 1;
+            offsetx +=1;
+        }
+        else if (d < 2 * (radius - offsety)) {
+            d += 2 * offsety - 1;
+            offsety -= 1;
+        }
+        else {
+            d += 2 * (offsety - offsetx - 1);
+            offsety -= 1;
+            offsetx += 1;
+        }
+    }
+}
+void
+Window::DrawFillCircleBottomLeft(int x, int y, int radius)
+{
+    int offsetx, offsety, d;
+
+    offsetx = 0;
+    offsety = radius;
+    d = radius -1;
+
+    while (offsety >= offsetx) {
+
+        SDL_RenderDrawLine(renderer, x - offsety, y + offsetx,
+                                     x, y + offsetx);
+        SDL_RenderDrawLine(renderer, x - offsetx, y + offsety,
+                                     x, y + offsety);
+
+        if (d >= 2*offsetx) {
+            d -= 2*offsetx + 1;
+            offsetx +=1;
+        }
+        else if (d < 2 * (radius - offsety)) {
+            d += 2 * offsety - 1;
+            offsety -= 1;
+        }
+        else {
+            d += 2 * (offsety - offsetx - 1);
+            offsety -= 1;
+            offsetx += 1;
+        }
+    }
+}
+void
+Window::DrawFillCircleTopRight(int x, int y, int radius)
+{
+    int offsetx, offsety, d;
+
+
+    offsetx = 0;
+    offsety = radius;
+    d = radius -1;
+
+    while (offsety >= offsetx) {
+
+        SDL_RenderDrawLine(renderer, x, y - offsety,
+                                     x + offsetx, y - offsety);
+        SDL_RenderDrawLine(renderer, x, y - offsetx,
+                                     x + offsety, y - offsetx);
+        if (d >= 2*offsetx) {
+            d -= 2*offsetx + 1;
+            offsetx +=1;
+        }
+        else if (d < 2 * (radius - offsety)) {
+            d += 2 * offsety - 1;
+            offsety -= 1;
+        }
+        else {
+            d += 2 * (offsety - offsetx - 1);
+            offsety -= 1;
+            offsetx += 1;
+        }
+    }
+}
+void
+Window::DrawFillCircleBottomRight(int x, int y, int radius)
+{
+    int offsetx, offsety, d;
+
+    offsetx = 0;
+    offsety = radius;
+    d = radius -1;
+
+    while (offsety >= offsetx) {
+
+        SDL_RenderDrawLine(renderer, x, y + offsetx,
+                                     x + offsety, y + offsetx);
+        SDL_RenderDrawLine(renderer, x, y + offsety,
+                                     x + offsetx, y + offsety);
+
+        if (d >= 2*offsetx) {
+            d -= 2*offsetx + 1;
+            offsetx +=1;
+        }
+        else if (d < 2 * (radius - offsety)) {
+            d += 2 * offsety - 1;
+            offsety -= 1;
+        }
+        else {
+            d += 2 * (offsety - offsetx - 1);
+            offsety -= 1;
+            offsetx += 1;
+        }
+    }
+}
+
+void Window::DrawTopLeftCircle(int32_t centreX, int32_t centreY, int32_t radius)
+{
+   const int32_t diameter = (radius * 2);
+
+   int32_t x = (radius - 1);
+   int32_t y = 0;
+   int32_t tx = 1;
+   int32_t ty = 1;
+   int32_t error = (tx - diameter);
+
+   while (x >= y)
+   {
+      SDL_RenderDrawPoint(renderer, centreX - x, centreY - y);
+      SDL_RenderDrawPoint(renderer, centreX - y, centreY - x);
+
+      if (error <= 0)
+      {
+         ++y;
+         error += ty;
+         ty += 2;
+      }
+
+      if (error > 0)
+      {
+         --x;
+         tx += 2;
+         error += (tx - diameter);
+      }
+   }
+}
+void Window::DrawTopRightCircle(int32_t centreX, int32_t centreY, int32_t radius)
+{
+   const int32_t diameter = (radius * 2);
+
+   int32_t x = (radius - 1);
+   int32_t y = 0;
+   int32_t tx = 1;
+   int32_t ty = 1;
+   int32_t error = (tx - diameter);
+
+   while (x >= y)
+   {
+      SDL_RenderDrawPoint(renderer, centreX + x, centreY - y);
+      SDL_RenderDrawPoint(renderer, centreX + y, centreY - x);
+
+      if (error <= 0)
+      {
+         ++y;
+         error += ty;
+         ty += 2;
+      }
+
+      if (error > 0)
+      {
+         --x;
+         tx += 2;
+         error += (tx - diameter);
+      }
+   }
+}
+void Window::DrawBottomLeftCircle(int32_t centreX, int32_t centreY, int32_t radius)
+{
+   const int32_t diameter = (radius * 2);
+
+   int32_t x = (radius - 1);
+   int32_t y = 0;
+   int32_t tx = 1;
+   int32_t ty = 1;
+   int32_t error = (tx - diameter);
+
+   while (x >= y)
+   {
+      SDL_RenderDrawPoint(renderer, centreX - x, centreY + y);
+      SDL_RenderDrawPoint(renderer, centreX - y, centreY + x);
+
+      if (error <= 0)
+      {
+         ++y;
+         error += ty;
+         ty += 2;
+      }
+
+      if (error > 0)
+      {
+         --x;
+         tx += 2;
+         error += (tx - diameter);
+      }
+   }
+}
+void Window::DrawBottomRightCircle(int32_t centreX, int32_t centreY, int32_t radius)
+{
+   const int32_t diameter = (radius * 2);
+
+   int32_t x = (radius - 1);
+   int32_t y = 0;
+   int32_t tx = 1;
+   int32_t ty = 1;
+   int32_t error = (tx - diameter);
+
+   while (x >= y)
+   {
+      SDL_RenderDrawPoint(renderer, centreX + x, centreY + y);
+      SDL_RenderDrawPoint(renderer, centreX + y, centreY + x);
+
+      if (error <= 0)
+      {
+         ++y;
+         error += ty;
+         ty += 2;
+      }
+
+      if (error > 0)
+      {
+         --x;
+         tx += 2;
+         error += (tx - diameter);
+      }
+   }
 }
