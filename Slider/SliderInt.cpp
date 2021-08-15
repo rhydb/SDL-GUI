@@ -17,6 +17,10 @@ SliderInt::SliderInt(Parent* parent, int _min, int _max, int* _variable)
 	gap = w / (max - min);
 }
 
+int SliderInt::get() {
+	return position_x / gap;
+}
+
 void SliderInt::update_and_render(float dt) {
 	if (dragging) {
 		int mouse_x = EventHandler::get_mouse_x()-x;

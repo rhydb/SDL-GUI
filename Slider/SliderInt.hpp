@@ -5,9 +5,7 @@ class SliderInt : public Slider {
 public:
 	SliderInt(Parent* parent, int min, int max, int* variable = nullptr);
 	void update_and_render(float dt);
-	int get() { 
-		return position_x / gap;
-	}
+	int get();
 	void set(int value);
 	int* variable;
 	bool show_lines = false;
