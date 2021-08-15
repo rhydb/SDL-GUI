@@ -27,7 +27,6 @@ class Parent;
 class Window;
 class Widget {
 public:
-    friend class Parent;
     Widget(Parent* parent);
 
     void bind(WidgetEvent event, std::function<void()> callback);
@@ -46,6 +45,7 @@ public:
     virtual void on_wheel_up() {call_callbacks(WidgetEvent::ON_WHEEL_UP);}
     virtual void on_wheel_down() {call_callbacks(WidgetEvent::ON_WHEEL_DOWN);}
     virtual void grid(unsigned int row = -1, unsigned int column = -1);
+    virtual void place(unsigned int x, unsigned int y, bool center = false);
     void regrid() {grid(row, column);}
     void set_tooltip(std::wstring text);
     inline void set_tooltip_delay(float seconds) { tooltip_delay = seconds; }
@@ -62,6 +62,10 @@ public:
     virtual void set_h(int new_h) { h = new_h; }
     virtual int get_h() { return h; }
     WidgetType get_type() {return type;}
+    inline unsigned int get_row() {return row;}
+    inline unsigned int get_column() {return column;}
+    inline void set_row(unsigned int new_row) {row = new_row;}
+    inline void set_column(unsigned int new_column) {column = new_column;}
 protected:
     WidgetType type = WidgetType::WIDGET;
     Window* window;

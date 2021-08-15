@@ -1,8 +1,9 @@
 #include "Parent.hpp"
+#include "EventHandler.hpp"
 #include <assert.h>
 #include <iostream>
 
-Widget* Parent::on_hover(int x, int y) {
+Widget* Parent::on_hover_grid(int x, int y) {
     int temp_x = m_x;
     int temp_y = m_y;
     int row = 0;
@@ -34,6 +35,18 @@ Widget* Parent::on_hover(int x, int y) {
     return nullptr;
 }
 
+Widget* Parent::on_hover_place(int x, int y) {
+    for (Widget *w : objects.back()) {
+        if (x <= w->get_x() + w->get_w() &&
+            x >= w->get_x() &&
+            y <= w->get_y() + w->get_h() &&
+            y >= w->get_y()) {
+            return w->get_target_widget(x, y);
+        }
+    }
+    return nullptr;
+}
+
 void Parent::update_and_render(float dt) {
     for (int i = 0; i < objects.size(); i++) {
         for (int j = 0; j < objects[i].size(); j++) {
@@ -43,7 +56,20 @@ void Parent::update_and_render(float dt) {
 
 }
 
+void Parent::place(Widget *widget, unsigned int x, unsigned int y, bool center) {
+    placement = Placement::PLACE;
+    get_fp = &Parent::on_hover_place;
+    if(objects.empty()){
+        objects.push_back({});
+    }
+    widget->set_x(x);
+    widget->set_y(y);
+    objects.back().push_back(widget);
+}
+
 void Parent::grid(Widget *widget, unsigned int row, unsigned int column) {
+    placement = Placement::GRID;
+    get_fp = &Parent::on_hover_grid;
     if (row >= objects.size()) {
         // new row
         row = objects.size();
@@ -88,7 +114,7 @@ void Parent::grid(Widget *widget, unsigned int row, unsigned int column) {
     }
    
     objects[row][column] = widget;
-    widget->row = row;
-    widget->column = column;
+    widget->set_row(row);
+    widget->set_column(column);
 
 }

@@ -16,6 +16,10 @@ void Widget::grid(unsigned int row, unsigned int column) {
     parent->grid(this, row, column);
 }
 
+void Widget::place(unsigned int x, unsigned int y, bool center) {
+    parent->place(this, x, y, center);
+}
+
 void Widget::update_and_render(float dt) {
     if (show_tooltip && has_tooltip) {
         if (collected_time >= tooltip_delay) {

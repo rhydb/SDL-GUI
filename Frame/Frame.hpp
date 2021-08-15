@@ -10,7 +10,6 @@ public:
     void grid(unsigned int row = -1, unsigned int column = -1); // widget grid, grid the actual frame into its parent
     void update_and_render(float dt);
     Window* get_root() {return parent->get_root();}
-    Widget* get_target_widget(int x, int y);
     void set_x(int newx);
     void set_y(int newy);
 
