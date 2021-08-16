@@ -62,8 +62,13 @@ void Parent::place(Widget *widget, unsigned int x, unsigned int y, bool center) 
     if(objects.empty()){
         objects.push_back({});
     }
-    widget->set_x(x);
-    widget->set_y(y);
+    if (center) {
+        widget->set_x(x - widget->get_w() / 2);
+        widget->set_y(y - widget->get_h() / 2);
+    } else {
+        widget->set_x(x);
+        widget->set_y(y);
+    }
     objects.back().push_back(widget);
 }
 
