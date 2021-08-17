@@ -97,6 +97,14 @@ And inserting into `1,0` will cause `0,1` to move
 
 To prevent `0,1` from being moved it, along with `0,0`, can be placed in a frame. This frame would be gridden in `0,0` of the main parent.
 
+## Building
+
+Just create makefiles using cmake, then build it. Example:
+```
+cmake CMakeLists.txt
+make
+```
+
 # Screenshots
 
 ![](./screenshot.png)
