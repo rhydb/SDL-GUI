@@ -1,6 +1,7 @@
+#include <assert.h>
 #include "Text.hpp"
 #include "Window.hpp"
-#include <assert.h>
+#include "text_handling.hpp"
 Text::Text(Window* window, std::string text) : window(window) {
     set(text);
 }
@@ -9,20 +10,22 @@ void Text::set(std::string new_text) {
     text = new_text;
     lines.clear();
     lines.push_back({});
-    int longest = 1;
-    for (wchar_t c : new_text) {
+    unsigned int longest = 1;
+    for (char c : new_text) {
         if (c == '\n') {
             // new line
-            if (lines.back().size() > longest) {
-                longest = lines.back().size();
+            unsigned long long char_count = strgetmblen(lines.back().c_str());
+            if (char_count > longest) {
+                longest = char_count;
             }
             lines.push_back({});
         } else {
              lines.back().push_back(c);
         }
     }
-    if (lines.back().size() > longest) {
-        longest = lines.back().size();
+    unsigned long long char_count = strgetmblen(lines.back().c_str());
+    if (char_count > longest) {
+        longest = char_count;
     }
     width = longest;
 }
