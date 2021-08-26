@@ -1,8 +1,9 @@
+#include <string.h>
 #include "Window.hpp"
 #include "Entry.hpp"
 #include "EventHandler.hpp"
-#include <string.h>
 #include "Theme.hpp"
+#include "text_handling.hpp"
 Entry::Entry(Parent *parent)
 : Widget(parent) {
     w = window->get_font_width() * 10; // minimum width of 10 characters (if there is no palceholder)
@@ -25,8 +26,11 @@ void Entry::update_and_render(float dt) {
 }
 
 void Entry::move_cursor_right() {
-    if (cursor_position < contents.size()) {
-        cursor_position++;
+    if (contents[cursor_position] != '\0') {
+        do {
+            cursor_position++;
+        } while(IS_NOT_START_BYTE(contents[cursor_position]));
+
         if (cursor_x < w - window->get_font_width()) {
             cursor_x += window->get_font_width();
         }
@@ -38,7 +42,10 @@ void Entry::move_cursor_right() {
 
 void Entry::move_cursor_left() {
     if (cursor_position > 0) {
-        cursor_position--;
+        do {
+            cursor_position--;
+        } while (IS_NOT_START_BYTE(contents[cursor_position]));
+
         if (cursor_x > window->get_font_width() + 2 || cursor_x > 2 && scroll_right == 0) {
             cursor_x -= window->get_font_width();
         }
@@ -70,8 +77,13 @@ void Entry::on_key_press(SDL_Scancode key) {
         } break;
         case SDL_SCANCODE_BACKSPACE: {
             if (cursor_position > 0) {
+                while (IS_NOT_START_BYTE(contents[cursor_position-1])) {
+                    contents.erase(contents.begin() + cursor_position-1);
+                    cursor_position--;
+                }
                 contents.erase(contents.begin() + cursor_position-1);
                 move_cursor_left();
+
             }
         } break;
         default: {
@@ -83,7 +95,11 @@ void Entry::on_key_press(SDL_Scancode key) {
 
 void Entry::calc_visible_text() {
     visible_text.clear();
-    for (int i = scroll_right; i < contents.size() && visible_text.size() < w / window->get_font_width(); i++) {
+    int new_scroll_right = scroll_right;
+    while (new_scroll_right > 0 && IS_NOT_START_BYTE(contents[new_scroll_right])) {
+        new_scroll_right--;
+    }
+    for (int i = new_scroll_right; contents[i] != '\0' && ( strgetmblen(visible_text.c_str()) < (w / window->get_font_width()) || IS_NOT_START_BYTE(contents[i])); i++) {
         visible_text.push_back(contents[i]);
     }
 }
