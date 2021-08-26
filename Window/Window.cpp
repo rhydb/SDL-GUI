@@ -31,7 +31,7 @@ Window::Window() {
         SDL_LogError(0, "Failed to initialize TTF: %s", SDL_GetError());
         return;
     }
-    SDL_WindowFlags windowFlags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+    SDL_WindowFlags windowFlags = (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_SHOWN);
     window = SDL_CreateWindow("SDL-GUI Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, windowFlags);
     sdl_window_id = SDL_GetWindowID(window);
     internal_window_id = windows_created++;
