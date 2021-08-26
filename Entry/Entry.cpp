@@ -99,7 +99,7 @@ void Entry::calc_visible_text() {
     while (new_scroll_right > 0 && IS_NOT_START_BYTE(contents[new_scroll_right])) {
         new_scroll_right--;
     }
-    for (int i = new_scroll_right; contents[i] != '\0' && ( strgetmblen(visible_text.c_str()) < (w / window->get_font_width()) || IS_NOT_START_BYTE(contents[i])); i++) {
+    for (int i = new_scroll_right; i < contents.size() && ( strgetmblen(visible_text.c_str()) < (w / window->get_font_width()) || IS_NOT_START_BYTE(contents[i])); i++) {
         visible_text.push_back(contents[i]);
     }
 }
