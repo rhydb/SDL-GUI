@@ -13,14 +13,10 @@ void Entry::update_and_render(float dt) {
     window->draw_rect(x, y, w, h, Theme::ENTRY_BORDER); // border
     window->draw_rect(x+1, y+1, w-2, h-2, Theme::ENTRY_BACKGROUND, true); // background
     if (!contents.empty()) {
-        char buffer_n[visible_text.size() * 4];
-        wcstombs(buffer_n, visible_text.c_str(), visible_text.size() * 4);
-        window->draw_text(x + 2, y+h/2 - window->get_font_height() / 2, buffer_n, Theme::ENTRY_FOREGROUND); // entered text
+        window->draw_text(x + 2, y+h/2 - window->get_font_height() / 2, visible_text.c_str(), Theme::ENTRY_FOREGROUND); // entered text
     } else {
         if (!placeholder.empty() && !typing) {// draw the placeholder
-            char buffer[placeholder.size() * 4];
-            wcstombs(buffer, placeholder.c_str(), placeholder.size() * 4);
-            window->draw_text(x + 2, y + h / 2 - window->get_font_height() / 2, buffer, Theme::ENTRY_PLACEHOLDER_FOREGROUND); // will go outside the box if long enough!
+            window->draw_text(x + 2, y + h / 2 - window->get_font_height() / 2, placeholder.c_str(), Theme::ENTRY_PLACEHOLDER_FOREGROUND); // will go outside the box if long enough!
         }
     }
     if (typing)
@@ -53,13 +49,9 @@ void Entry::move_cursor_left() {
 }
 
 void Entry::on_text_input(char* text) {
-    wchar_t buffer_w[strlen(text) * 4];
-    mbstowcs(buffer_w, text, strlen(text) * 4);
-    contents.insert(cursor_position, buffer_w);
+    contents.insert(cursor_position, text);
     move_cursor_right();
-    char buffer_n[contents.size() * 4];
-    wcstombs(buffer_n, contents.c_str(), contents.size() * 4);
-    TTF_SizeText(window->get_font(), buffer_n, &text_width, &text_height);
+    TTF_SizeText(window->get_font(), contents.c_str(), &text_width, &text_height);
     calc_visible_text();
 }
 
@@ -85,9 +77,7 @@ void Entry::on_key_press(SDL_Scancode key) {
         default: {
         } break;
     }
-    char buffer_n[contents.size() * 4];
-    wcstombs(buffer_n, contents.c_str(), contents.size() * 4);
-    TTF_SizeText(window->get_font(), buffer_n, &text_width, &text_height);
+    TTF_SizeText(window->get_font(), contents.c_str(), &text_width, &text_height);
     calc_visible_text();
 }
 
@@ -98,13 +88,13 @@ void Entry::calc_visible_text() {
     }
 }
 
-void Entry::set(std::wstring text) {
+void Entry::set(std::string text) {
     scroll_right = 0;
     contents = text;
     calc_visible_text();
 }
 
-void Entry::set_placeholder(std::wstring text) {
+void Entry::set_placeholder(std::string text) {
     placeholder = text;
     w = window->get_font_width() * text.length();
 }

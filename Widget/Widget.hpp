@@ -47,7 +47,7 @@ public:
     virtual void grid(unsigned int row = -1, unsigned int column = -1);
     virtual void place(unsigned int x, unsigned int y, bool center = false);
     void regrid() {grid(row, column);}
-    void set_tooltip(std::wstring text);
+    void set_tooltip(std::string text);
     inline void set_tooltip_delay(float seconds) { tooltip_delay = seconds; }
     void remove_tooltip();
 

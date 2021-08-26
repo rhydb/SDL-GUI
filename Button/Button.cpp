@@ -2,7 +2,7 @@
 #include "Button.hpp"
 #include "Utils.hpp"
 #include <iostream>
-Button::Button(Parent *parent, std::wstring _text, std::function<void()> callback)
+Button::Button(Parent *parent, std::string _text, std::function<void()> callback)
 // hard code font height and width :)
 : Widget(parent), callback(callback) {
     text = Text(window, _text);
@@ -12,10 +12,8 @@ Button::Button(Parent *parent, std::wstring _text, std::function<void()> callbac
 void Button::update_dimensions() {
     //w = text.get_width() * 7 + padding_x;
     //h = text.get_line_count() * 15 + padding_y;
-    char buffer[text.get().size() * 4];
-    wcstombs(buffer, text.get().c_str(), text.get().size() * 4);
     // TODO: this stops set_w from working
-    TTF_SizeText(window->get_font(), buffer, &w, &h);
+    TTF_SizeText(window->get_font(), text.get().c_str(), &w, &h);
     w += padding_x;
     h *= text.get_line_count();
     h += padding_y;
@@ -62,7 +60,7 @@ void Button::on_release() {
     callback();
 }
 
-void Button::set(std::wstring _text) {
+void Button::set(std::string _text) {
     text.set(_text);
     update_dimensions();
 }

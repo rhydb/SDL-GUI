@@ -2,12 +2,12 @@
 #include "EventHandler.hpp"
 #include "Dropdown.hpp"
 
-Dropdown::Dropdown(Parent *parent, std::wstring _placeholder, std::vector<std::wstring> _options)
+Dropdown::Dropdown(Parent *parent, std::string _placeholder, std::vector<std::string> _options)
 :Widget(parent), placeholder(_placeholder), options(_options) {
     w = placeholder.length();
     if (w == 0)
         w = window->get_font_width();
-    for (std::wstring &str : options) {
+    for (std::string &str : options) {
         if (str.length() > w)
             w = str.length();
     }
@@ -18,10 +18,10 @@ Dropdown::Dropdown(Parent *parent, std::wstring _placeholder, std::vector<std::w
     window->click_event_callbacks.push_back([this](){return handle_global_press();});
 }
 
-std::wstring Dropdown::get() {
+std::string Dropdown::get() {
     if (selected != nullptr)
         return *selected;
-    std::wstring temp;
+    std::string temp;
     return temp;
 }
 
@@ -48,14 +48,10 @@ void Dropdown::update_and_render(float dt) {
             if (item > 0 && item <= options.size()) // draw a coloured rect behind the hovered item
                 window->draw_rect(x, y+item*window->get_font_height(), w, window->get_font_height(), hover_background, true);
             
-            char buffer[placeholder.size() * 8];
-            wcstombs(buffer, placeholder.c_str(), placeholder.size()*8);
-            window->draw_text(x, y, buffer, foreground);
+            window->draw_text(x, y, placeholder.c_str(), foreground);
             int i = 1;
-            for (std::wstring &str : options) {
-                char buffer[str.size() * 8];
-                wcstombs(buffer, str.c_str(), str.size()*8);
-                window->draw_text(x, y + i*window->get_font_height(), buffer, foreground);
+            for (std::string &str : options) {
+                window->draw_text(x, y + i*window->get_font_height(), str.c_str(), foreground);
                 i++;
             }
         });
@@ -65,18 +61,12 @@ void Dropdown::update_and_render(float dt) {
         window->draw_line(x+w-triangle_size-triangle_edge_gap, y+h/2, x+w-triangle_size/2-triangle_edge_gap, y+h*0.75f, {255, 255, 255});
         window->draw_line(x+w-triangle_size/2-triangle_edge_gap, y+h*0.75f, x+w-triangle_edge_gap, y+h/2, {255, 255, 255});
         // just draw the selected or the placeholder
-        char *buffer;
         // this is ugly
         if (selected == nullptr) {
-            char array[placeholder.size() * 8];
-            buffer = array;
-            wcstombs(buffer, placeholder.c_str(), placeholder.size() * 8);
+            window->draw_text(x, y, placeholder.c_str(), foreground);
         } else {
-            char array[placeholder.size() * 8];
-            buffer = array;
-            wcstombs(buffer, selected->c_str(), selected->size()*8);
+            window->draw_text(x, y, selected->c_str(), foreground);
         }
-        window->draw_text(x, y, buffer, foreground);
     }
     Widget::update_and_render(dt);
 }

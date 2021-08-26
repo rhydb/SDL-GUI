@@ -8,9 +8,9 @@ class Text {
 public:
     friend class Textbox;
     Text() {}
-    Text(Window* window, std::wstring text);
-    virtual void set(std::wstring new_text);
-    std::wstring get();
+    Text(Window* window, std::string text);
+    virtual void set(std::string new_text);
+    std::string get();
     void render(int x, int y, SDL_Color foreground = Theme::TEXT_FOREGROUND, bool draw_background = false, SDL_Color background = Theme::TEXT_BACKGROUND);
     int get_line_count();
     int get_width();
@@ -18,8 +18,8 @@ public:
     void clear();
     Window* window = nullptr;
 protected:
-    std::wstring text;
+    std::string text;
 private:
     int width = 0;
-    std::vector<std::wstring> lines;
+    std::vector<std::string> lines;
 };

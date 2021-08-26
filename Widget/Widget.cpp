@@ -48,7 +48,7 @@ void Widget::off_hover() {
     call_callbacks(WidgetEvent::OFF_HOVER);
 }
 
-void Widget::set_tooltip(std::wstring text) {
+void Widget::set_tooltip(std::string text) {
     has_tooltip = true;
     tooltip.set(text);
 }

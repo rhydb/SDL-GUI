@@ -2,7 +2,7 @@
 #include "Window.hpp"
 #include "Checkbox.hpp"
 
-Checkbox::Checkbox(Parent* parent, std::wstring _text, bool* _variable)
+Checkbox::Checkbox(Parent* parent, std::string _text, bool* _variable)
 :Widget(parent) {
 	text = Text(window, _text);
 	variable = _variable;
@@ -13,9 +13,7 @@ Checkbox::Checkbox(Parent* parent, std::wstring _text, bool* _variable)
 }
 
 void Checkbox::update_dimensions() {
-	char buffer[text.get().size() * 4];
-	wcstombs(buffer, text.get().c_str(), text.get().size() * 4);
-	TTF_SizeText(window->get_font(), buffer, &w, &h);
+	TTF_SizeText(window->get_font(), text.get().c_str(), &w, &h);
 	w += padding_x + spacing;
 	h *= text.get_line_count();
 	h += padding_y;

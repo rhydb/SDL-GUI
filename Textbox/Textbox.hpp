@@ -6,8 +6,8 @@ public:
         unsigned int line_count = 10, 
         unsigned int character_count = 20
     );
-    void set(std::wstring text);
-    inline std::wstring get() {return contents.get();}
+    void set(std::string text);
+    inline std::string get() {return contents.get();}
     void update_and_render(float dt);
     void on_hover();
     void off_hover();
@@ -33,7 +33,7 @@ private:
 
     Text contents;
     Text visible_text;
-    std::wstring placeholder;
+    std::string placeholder;
     int padding = 2;
     int cursor_x = padding;
     int cursor_y = padding;

@@ -6,8 +6,8 @@ Textbox::Textbox(Parent* parent, unsigned int line_count, unsigned int character
 :Widget(parent), line_count(line_count), character_count(character_count) {
     w = window->get_font_width() * character_count;
     h = window->get_font_height() * line_count;
-    contents = Text(window, L"");
-    visible_text = Text(window ,L"");
+    contents = Text(window, "");
+    visible_text = Text(window ,"");
 }
 
 
@@ -19,9 +19,7 @@ void Textbox::update_and_render(float dt) {
         // window->draw_text(x + 2, y+h/2 - window->get_font_height() / 2, buffer_n, Theme::ENTRY_FOREGROUND); // entered text
     } else {
         if (!placeholder.empty() && !typing) {// draw the placeholder
-            char buffer[placeholder.size() * 4];
-            wcstombs(buffer, placeholder.c_str(), placeholder.size() * 4);
-            window->draw_text(x + 2, y + h / 2 - window->get_font_height() / 2, buffer, Theme::ENTRY_PLACEHOLDER_FOREGROUND); // will go outside the box if long enough!
+            window->draw_text(x + 2, y + h / 2 - window->get_font_height() / 2, placeholder.c_str(), Theme::ENTRY_PLACEHOLDER_FOREGROUND); // will go outside the box if long enough!
         }
     }
     if (typing)
@@ -33,14 +31,14 @@ void Textbox::calc_visible_text() {
     visible_text.lines.clear();
     for (int l = scroll_down; l < contents.get_line_count() && visible_text.get_line_count() < line_count; l++) {
         // go through each line visible after the scroll down, and add characters visible after scroll right
-        visible_text.lines.push_back(L"");
+        visible_text.lines.push_back("");
         for (int i = scroll_right; i < contents.lines[l].length() && visible_text.lines.back().size() < character_count; i++) {
             visible_text.lines.back().push_back(contents.lines[l][i]);
         }
     }
 }
 
-void Textbox::set(std::wstring text) {
+void Textbox::set(std::string text) {
     contents.set(text);
     scroll_right = 0;
     scroll_down = 0;
@@ -155,8 +153,8 @@ void Textbox::move_cursor_left() {
 
 void Textbox::new_line() {
     // TODO: if new_line in the middle of a line, take the right side of the cursor with it
-    std::wstring right_side = contents.lines[cursor_line].substr(cursor_position, std::wstring::npos); // all text to the right of cursor
-    contents.lines[cursor_line].erase(cursor_position, std::wstring::npos);
+    std::string right_side = contents.lines[cursor_line].substr(cursor_position, std::string::npos); // all text to the right of cursor
+    contents.lines[cursor_line].erase(cursor_position, std::string::npos);
     contents.lines.insert(contents.lines.begin() + cursor_line+1, right_side);
     move_cursor_down();
     cursor_position = 0; // put cursor at the beginning of the line
@@ -212,11 +210,8 @@ void Textbox::on_press() {
 }
 
 void Textbox::on_text_input(char* text) {
-    wchar_t buffer_w[strlen(text) * 4];
-    mbstowcs(buffer_w, text, strlen(text) * 4);
-    contents.lines[cursor_line].insert(cursor_position, buffer_w);
+    contents.lines[cursor_line].insert(cursor_position, text);
     move_cursor_right();
-
     calc_visible_text();
 }
 
