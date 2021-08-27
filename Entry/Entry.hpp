@@ -14,11 +14,12 @@ public:
     void on_press(); 
     void on_key_press(SDL_Scancode key);
     void on_text_input(char* text);
+    void set_max_chars(unsigned int value);
 
 private:
     int text_width = 1;
     int text_height = 1;
-
+    unsigned int max_characters = -1;
     int characters = 0;
     std::string contents;
     std::string visible_text;

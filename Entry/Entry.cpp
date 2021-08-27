@@ -61,6 +61,9 @@ void Entry::move_cursor_left() {
 }
 
 void Entry::on_text_input(char* text) {
+    if (strgetmblen(contents.c_str()) >= max_characters) {
+        return;
+    }
     if (cursor_x < w - window->get_font_width()) {
         cursor_x += window->get_font_width();
     }
@@ -194,4 +197,8 @@ void Entry::on_hover() {
 void Entry::off_hover() {
     Widget::off_hover();
     window->set_cursor(Window::Cursor::NORMAL);
+}
+
+void Entry::set_max_chars(unsigned int value) {
+    max_characters = value;
 }
