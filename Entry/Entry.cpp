@@ -159,16 +159,18 @@ void Entry::on_press() {
     }
 
     int characters_passed = 0;
-    int byte_position = 0;
+    int byte_position = scroll_right;
     // need to find what byte 'character' starts at
     while (characters_passed < character) {
-        if (0b10000000 & contents[byte_position]) {
+        if (contents[byte_position] & 0b10000000) {
             // multibyte character, keep going until the end
-            while (IS_NOT_START_BYTE(contents[byte_position+1])) {
+            byte_position++;
+            while (IS_NOT_START_BYTE(contents[byte_position])) {
                 byte_position++;
             }
+        } else {
+            byte_position++;
         }
-        byte_position++;
         characters_passed++;
     }
     cursor_position = byte_position; // the true position
