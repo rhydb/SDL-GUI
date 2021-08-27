@@ -89,8 +89,11 @@ void Entry::on_key_press(SDL_Scancode key) {
             move_cursor_left();
         } break;
         case SDL_SCANCODE_DELETE: {
-            if (cursor_position < contents.size())
-                contents.erase(contents.begin() + cursor_position);
+            if (cursor_position < contents.size()) {
+                do {
+                    contents.erase(contents.begin() + cursor_position);
+                } while(IS_NOT_START_BYTE(contents[cursor_position]));
+            }
         } break;
         case SDL_SCANCODE_BACKSPACE: {
             if (cursor_position > 0) {
