@@ -27,37 +27,54 @@ void Entry::update_and_render(float dt) {
 
 void Entry::move_cursor_right() {
     if (contents[cursor_position] != '\0') {
-        do {
-            cursor_position++;
-        } while(IS_NOT_START_BYTE(contents[cursor_position]));
-
         if (cursor_x < w - window->get_font_width()) {
             cursor_x += window->get_font_width();
         }
         else {
-            scroll_right++;
+            do {
+                scroll_right++;
+            }
+            while ( IS_NOT_START_BYTE(contents[scroll_right]) );
         }
+
+        do {
+            cursor_position++;
+        } while (IS_NOT_START_BYTE(contents[cursor_position]) );
     }
 }
 
 void Entry::move_cursor_left() {
     if (cursor_position > 0) {
-        do {
-            cursor_position--;
-        } while (IS_NOT_START_BYTE(contents[cursor_position]));
-
         if (cursor_x > window->get_font_width() + 2 || cursor_x > 2 && scroll_right == 0) {
             cursor_x -= window->get_font_width();
         }
         else {
-            scroll_right--;
+            do {
+                scroll_right--;
+            }
+            while ( IS_NOT_START_BYTE(contents[scroll_right]) );
         }
+        do {
+            cursor_position--;
+        } while (IS_NOT_START_BYTE(contents[cursor_position]) );
     }
 }
 
 void Entry::on_text_input(char* text) {
+    if (cursor_x < w - window->get_font_width()) {
+        cursor_x += window->get_font_width();
+    }
+    else {
+        do {
+            scroll_right++;
+        }
+        while ( IS_NOT_START_BYTE(contents[scroll_right]) );
+    }
     contents.insert(cursor_position, text);
-    move_cursor_right();
+    cursor_position++;
+    while (contents[cursor_position] != '\0' && IS_NOT_START_BYTE(contents[cursor_position])) {
+        cursor_position++;
+    }
     TTF_SizeText(window->get_font(), contents.c_str(), &text_width, &text_height);
     calc_visible_text();
 }
@@ -77,13 +94,23 @@ void Entry::on_key_press(SDL_Scancode key) {
         } break;
         case SDL_SCANCODE_BACKSPACE: {
             if (cursor_position > 0) {
+                if (cursor_x > window->get_font_width() + 2 || cursor_x > 2 && scroll_right == 0) {
+                    cursor_x -= window->get_font_width();
+                }
+                else {
+                    do {
+                        scroll_right--;
+                    }
+                    while ( IS_NOT_START_BYTE(contents[scroll_right]) );
+                }
+                // need to keep going up to a start byte
                 while (IS_NOT_START_BYTE(contents[cursor_position-1])) {
                     contents.erase(contents.begin() + cursor_position-1);
                     cursor_position--;
                 }
+                // one more time to remove the start byte
                 contents.erase(contents.begin() + cursor_position-1);
-                move_cursor_left();
-
+                cursor_position--;
             }
         } break;
         default: {
@@ -99,7 +126,7 @@ void Entry::calc_visible_text() {
     while (new_scroll_right > 0 && IS_NOT_START_BYTE(contents[new_scroll_right])) {
         new_scroll_right--;
     }
-    for (int i = new_scroll_right; i < contents.size() && ( strgetmblen(visible_text.c_str()) < (w / window->get_font_width()) || IS_NOT_START_BYTE(contents[i])); i++) {
+    for (int i = new_scroll_right; i < contents.size() && ( strgetmblen(visible_text.c_str()) < (w / window->get_font_width())-1 || IS_NOT_START_BYTE(contents[i])); i++) {
         visible_text.push_back(contents[i]);
     }
 }
