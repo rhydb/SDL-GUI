@@ -151,13 +151,27 @@ void Entry::on_press() {
     Widget::on_press();
     int mouse_x_rel = EventHandler::get_mouse_x() - x; // relative mouse x
     int character = mouse_x_rel / window->get_font_width(); // character without respect to scroll
-    if (character > contents.size())
-        character = contents.size();
+    if (character > strgetmblen(contents.c_str()))
+        character = strgetmblen(contents.c_str());
     cursor_x = character * window->get_font_width(); // round it back up so that it locks to characters
-    if (cursor_x > visible_text.size() * window->get_font_width()) {
-        cursor_x = visible_text.size() * window->get_font_width();
+    if (cursor_x > strgetmblen(visible_text.c_str()) * window->get_font_width()) {
+        cursor_x = strgetmblen(visible_text.c_str()) * window->get_font_width();
     }
-    cursor_position = scroll_right + character; // the true position
+
+    int characters_passed = 0;
+    int byte_position = 0;
+    // need to find what byte 'character' starts at
+    while (characters_passed < character) {
+        if (0b10000000 & contents[byte_position]) {
+            // multibyte character, keep going until the end
+            while (IS_NOT_START_BYTE(contents[byte_position+1])) {
+                byte_position++;
+            }
+        }
+        byte_position++;
+        characters_passed++;
+    }
+    cursor_position = byte_position; // the true position
     if (cursor_position > contents.size()) {
         cursor_position = contents.size();
     }
