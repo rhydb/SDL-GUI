@@ -17,10 +17,6 @@ It uses SDL2 has a backend for creating windows, rendering shapes and colours an
 A valid `font.ttf` file should be in the same directory as the binary. This font should be **fixed width**. This font must be able to display any characters that you wish to display as there are no fallbacks.
 Additionally, all widgets should be created using the `new` keyword (`Widget *w = new Widget()`). This is to allow for cleaning up to take place once the window's `run()` has returned.
 
-There can be some issues with unicode on Windows. I believe this is to do with Windows using 2 bytes for `wchar_t` while Linux uses 4. If there are other issues it may be a problem with `setlocale`.
-
-To handle unicode, all strings are `std::wstring` and to communicate with SDL, which uses c-strings, `mbstowcs` and `wcstombs` are used. This means that any in-line strings being passed to widgets should be L strings (`L"text"`).
-
 ## Structure
 
 Creating a basic app looks something like this
@@ -46,12 +42,12 @@ Closing the root window (the first window created / the window with `internal_wi
 ```c++
 Window root = Window();
 // add everything to the root window
-Label *label_1 = new Label(&root, L"Root label");
+Label *label_1 = new Label(&root, "Root label");
 label_1->grid();
 
 	// Create second window
 	Window second = Window();
-	Label *label_2 = new Label(&second, L"Second label");
+	Label *label_2 = new Label(&second, "Second label");
 	label_2->grid();
 	second.run();
 
@@ -71,7 +67,7 @@ To build, the following are required
 
 ## Organisation
 
-Organisation can only be created using dynamic grids, meaning they will grow with the items that are 'gridded' and are bigger than previously gridded items.
+Organisation can be created using dynamic grids or placing with exact co-ordinated
 
 Frames act as sub-grids allowing for further organisation.
 
